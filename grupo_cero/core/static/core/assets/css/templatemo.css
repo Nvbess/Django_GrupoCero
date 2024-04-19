@@ -52,7 +52,7 @@ label,
 input,
 div {
   font-family: 'Roboto', sans-serif;
-  font-size: 18px !important;
+  font-size: 18px;
   font-weight: 300 !important;
 }
 
@@ -235,13 +235,64 @@ div {
 /* Carousel Hero */
 #template-mo-zay-hero-carousel .carousel-indicators li {
   margin-top: -50px;
-  background-color: #59ab6e;
+  background-color: #0D0D0D;
 }
 
 #template-mo-zay-hero-carousel .carousel-control-next i,
 #template-mo-zay-hero-carousel .carousel-control-prev i {
-  color: #59ab6e !important;
+  color: #0D0D0D !important;
   font-size: 2.8em !important;
+}
+
+#template-mo-zay-hero-carousel .carousel-item img {
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 920px;
+  max-width: none;
+  object-fit: cover;
+}
+
+#template-mo-zay-hero-carousel .carousel-item .container {
+  position: relative;
+  width: 50%;
+}
+
+#template-mo-zay-hero-carousel .carousel-item .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .7s ease;
+  background-color: rgba(12, 12, 12, 1);
+}
+
+#template-mo-zay-hero-carousel .carousel-item:hover .overlay {
+  opacity: 0.5;
+}
+
+#template-mo-zay-hero-carousel .carousel-item .text a {
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  font-size: 80px;
+  opacity: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+#container-desc .container.h1 {
+  background-color: #000;
+
 }
 
 /* Carousel Brand */
@@ -325,15 +376,26 @@ div {
 }
 
 @media (min-width: 576px) {
-  .tempaltemo-carousel .h1 {
-    font-size: 1em !important;
+  #template-mo-zay-hero-carousel .carousel-item {
+    min-height: 300px;
+    height: auto;
+    max-width: none;
+    object-fit: cover;
   }
+
 }
 
 /*// Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
   #templatemo_main_nav .navbar-nav {
     max-width: 450px;
+  }
+
+  #template-mo-zay-hero-carousel .carousel-item {
+    min-height: 400px;
+    height: auto;
+    max-width: none;
+    object-fit: cover;
   }
 }
 
@@ -344,7 +406,10 @@ div {
   }
 
   #template-mo-zay-hero-carousel .carousel-item {
-    min-height: 30rem !important;
+    min-height: 500px;
+    height: auto;
+    max-width: none;
+    object-fit: cover;
   }
 
   .product-wap .h3,
