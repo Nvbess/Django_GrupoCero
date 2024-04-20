@@ -290,11 +290,6 @@ div {
   -ms-transform: translate(-50%, -50%);
 }
 
-#container-desc .container.h1 {
-  background-color: #000;
-
-}
-
 /* Carousel Brand */
 .tempaltemo-carousel .h1 {
   font-size: .5em !important;

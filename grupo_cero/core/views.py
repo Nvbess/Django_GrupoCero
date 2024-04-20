@@ -7,3 +7,6 @@ def index(request):
 
 def contacto(request):
     	return render(request, 'core/contacto.html')
+
+def colecciones(request):
+    	return render(request, 'core/colecciones.html')

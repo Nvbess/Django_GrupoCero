@@ -27,7 +27,7 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="{% url 'index' %}">
                 <img src="{% static 'core/assets/img/logo-01.png' %}" alt="Logo" width="110" class="d-inline-block" />
             </a>
 
@@ -42,16 +42,16 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Inicio</a>
+                            <a class="nav-link" href="{% url 'index' %}">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="about.html">Artistas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="shop.html">Colecciones</a>
+                            <a class="nav-link" href="{% url 'colecciones' %}">Colecciones</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contacto</a>
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
                         </li>
                     </ul>
                 </div>
@@ -109,7 +109,7 @@
 	{% endblock %}
 
     <!-- Start Footer -->
-    <footer class="bg-dark mt-2" id="tempaltemo_footer">
+    <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
 
