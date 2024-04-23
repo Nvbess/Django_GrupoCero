@@ -12,6 +12,9 @@ def contacto(request):
 def colecciones(request):
     	return render(request, 'core/colecciones.html')
 
+def artistas(request):
+    	return render(request, 'core/artistas.html')
+
 def obras(request):
 		obras = Obra.objects.all()
 		aux = {
