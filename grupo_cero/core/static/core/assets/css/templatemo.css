@@ -91,11 +91,11 @@ div {
 }
 
 .text-light {
-  color: #cfd6e1 !important;
+  color: #BFBFBF !important;
 }
 
 .bg-dark {
-  background-color: #212934 !important;
+  background-color: #0D0D0D !important;
 }
 
 .bg-light {
@@ -103,7 +103,7 @@ div {
 }
 
 .bg-black {
-  background-color: #1d242d !important;
+  background-color: #0D0D0D !important;
 }
 
 .bg-success {
@@ -121,7 +121,7 @@ div {
 
 .pagination .page-link:hover,
 .pagination .page-link.active {
-  background-color: #69bb7e;
+  background-color: #000000;
   color: #fff;
 }
 
@@ -167,7 +167,7 @@ div {
 
 /* Shop */
 .shop-top-menu a:hover {
-  color: #69bb7e !important;
+  color: #e71111 !important;
 }
 
 /* Product */
@@ -196,6 +196,7 @@ div {
 }
 
 .card.product-wap .card .product-overlay {
+  object-fit: contain;
   background: rgba(0, 0, 0, .2);
   visibility: hidden;
   opacity: 0;
@@ -322,11 +323,11 @@ div {
 
 /* Footer */
 #tempaltemo_footer a {
-  color: #dcdde1;
+  color: #BFBFBF;
 }
 
 #tempaltemo_footer a:hover {
-  color: #68bb7d;
+  color: #ffffff;
 }
 
 #tempaltemo_footer ul.footer-link-list li {

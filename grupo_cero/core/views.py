@@ -15,6 +15,9 @@ def colecciones(request):
 def artistas(request):
     	return render(request, 'core/artistas.html')
 
+def coleccionessingle(request):
+    	return render(request, 'core/coleccionessingle.html')
+
 def obras(request):
 		obras = Obra.objects.all()
 		aux = {
