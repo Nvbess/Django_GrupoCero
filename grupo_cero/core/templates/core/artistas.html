@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<section id="container-artista" class="container-col list-group list-group-horizontal">
+    <div class="row row-cols-md-4">
+        <div class="carta-artista">
+            <div class="card " style="width: fit-content">
+                <a href="{% url 'artista1' %}"><img src="{% static 'core/assets/img/Gracia_Barrios.jpg' %}" class="card-img-top" alt=""></a>
+                <div class="card-body">
+                    <h5 class="card-title">Gracia Barrios</h5>
+                    <p class="card-text">Pintora Chilena</p>
+                    <a href="{% url 'artista1' %}" class="btn btn-outline-dark justify-content-center">Más Información</a>
+                </div>
+            </div>
+        </div>
+        <div class="carta-artista">
+            <div class="card" style="width: fit-content">
+                <a href="{% url 'artista1' %}"><img src="{% static 'core/assets/img/roberto-matta.jpg' %}" class="card-img-top" alt=""></a>
+                <div class="card-body">
+                    <h5 class="card-title">Roberto Matta</h5>
+                    <p class="card-text">Arquitecto Pintor Chileno</p>
+                    <a href="{% url 'artista1' %}" class="btn btn-outline-dark justify-content-center">Más Información</a>
+                </div>
+            </div>
+        </div>
+        <div class="carta-artista">
+            <div class="card " style="width: fit-content">
+                <a href="{% url 'artista1' %}"><img src="{% static 'core/assets/img/Claude_Monet_1899_Nadar_crop.jpg' %}" class="card-img-top" alt=""></a>
+                <div class="card-body">
+                    <h5 class="card-title">Claude Monet</h5>
+                    <p class="card-text">Pintor Francés</p>
+                    <a href="{% url 'artista1' %}" class="btn btn-outline-dark justify-content-center">Más Información</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carta-artista">
+            <div class="card " style="width: fit-content">
+                <a href="{% url 'artista1' %}"><img src="{% static 'core/assets/img/Joan_Miro_(cropped).jpg' %}" class="card-img-top" alt=""></a>
+                <div class="card-body">
+                    <h5 class="card-title">Joan Miró</h5>
+                    <p class="card-text">Pintor y Escultor Español</p>
+                    <a href="{% url 'artista1' %}" class="btn btn-outline-dark justify-content-center">Más Información</a>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+{% endblock %}
