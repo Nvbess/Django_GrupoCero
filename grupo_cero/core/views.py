@@ -20,38 +20,37 @@ def artistas(request):
 def coleccionessingle(request):
     	return render(request, 'core/coleccionessingle.html')
 
-def obrasadd(request):
-		aux = {
-			'form' : ObraForm()
-		}
+#def obrasadd(request):
+		#aux = {
+		#	'form' : ObraForm()
+		#}
 
-		if request.method == 'POST':
-			formulario = ObraForm(request.POST)
-			if formulario.is_valid():
-				formulario.save()
-				aux['msj'] = "Empleado guardado correctamente!"
-			else:
-				aux['form'] = formulario
+		#if request.method == 'POST':
+		#	formulario = ObraForm(request.POST)
+		#	if formulario.is_valid():
+		#		formulario.save()
+		#		aux['msj'] = "Empleado guardado correctamente!"
+		#	else:
+		#		aux['form'] = formulario
 
-		return render(request, 'core/obras/crud/add.html', aux)
+		#return render(request, 'core/obras/crud/add.html', aux)
     		
 
-def obrasupd(request, id):
+#def obrasupd(request, id):
 		
-		obra = Obra.objects.get(id=id)
-
-		aux = {
-			'form' : ObraForm(instance=obra)
-		}
-		if request.method == 'POST':
-			formulario = ObraForm(request.POST, instance=obra)
-			if formulario.is_valid():
-				formulario.save()
-				aux['msj'] = "Empleado modificado correctamente!"
-				aux['form'] = formulario
-				
-
-		return render(request, 'core/obras/crud/actualizar.html', aux)
+		#obra = Obra.objects.get(id=id)
+		#aux = {
+		#	'form' : ObraForm(instance=obra)
+		#}
+		#if request.method == 'POST':
+		#	formulario = ObraForm(request.POST, instance=obra)
+		#	if formulario.is_valid():
+		#		formulario.save()
+		#		aux['msj'] = "Empleado modificado correctamente!"
+		#		aux['form'] = formulario
+		#		
+#
+#		return render(request, 'core/obras/crud/actualizar.html', aux)
 
 #def obras(request):
 		#obras = Obra.objects.all()
