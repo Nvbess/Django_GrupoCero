@@ -1,0 +1,23 @@
+{% extends 'core/admin/admingc.html' %}
+{% load static %}
+{% block contenido_adm %}
+
+<form id="creacion-cuenta" action="">
+    {% csrf_token %}
+    <h2 class="h3 mb-3 fw-normal">Creacion cuenta cooperativa</h2>
+    <div id="user-admin" class="mb-3 mt-3">
+        <label for="user" class="form-label">Username:</label>
+        <input type="user" class="form-control" id="user" placeholder="" name="user">
+    </div>
+    <div id="correo-admin" class="mb-3 mt-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="" name="email">
+    </div>
+    <div id="pass-admin" class="mb-3">
+        <label for="pwd" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="" name="pswd">
+    </div>
+    <button id="creacionbtn" type="submit" class="btn btn-dark">Crear</button>
+</form>
+
+{% endblock %}

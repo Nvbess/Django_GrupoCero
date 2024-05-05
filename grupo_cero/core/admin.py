@@ -3,3 +3,6 @@ from .models import *
 
 # Register your models here.
 
+admin.site.register(Autor)
+admin.site.register(Tipo_Arte)
+admin.site.register(Arte)
