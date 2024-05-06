@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 # Create your views here.
@@ -54,6 +55,7 @@ def adminupd(request):
             aux['msj'] = "Colaborador Actualizado"
             aux['form'] = formulario
     return render(request, 'core/admin/admin-upd.html', aux)
+
 
 def adminlistar(request):
     colaboradores = Colaborador.objects.all()

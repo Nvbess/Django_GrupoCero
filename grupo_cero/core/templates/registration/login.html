@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %} <!-- Carga del Crispy Forms -->
+<form method="POST">
+    {% csrf_token %} <!-- Token de Seguridad -->
+    {{ form | crispy }} <!-- Cargar form y Crispy Forms para usarlo -->
+    <input type="submit" class="btn btn-success" value="Ingresar">
+    
+</form>

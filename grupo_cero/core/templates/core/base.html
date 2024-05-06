@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'core/assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'core/assets/css/templatemo.css' %}">
     <link rel="stylesheet" href="{% static 'core/assets/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assets/css/estilos.css' %}">
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -52,6 +53,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" value="Logout">
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -131,17 +141,15 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Artistas</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Roberto Matta</a></li>
-                        <li><a class="text-decoration-none" href="#">Gracia Barrios</a></li>
-                        <li><a class="text-decoration-none" href="#">Claude Monett</a></li>
-                        <li><a class="text-decoration-none" href="#">Joan Miro</a></li>
-                    </ul>
+                        <h2 class="h2 text-light border-bottom pb-3 border-light">Artistas</h2>
+                        <ul class="list-unstyled text-light footer-link-list">
+                            <li><a class="text-decoration-none" href="#">Roberto Matta</a></li>
+                            <li><a class="text-decoration-none" href="#">Gracia Barrios</a></li>
+                            <li><a class="text-decoration-none" href="#">Claude Monett</a></li>
+                            <li><a class="text-decoration-none" href="#">Joan Miro</a></li>
+                        </ul>
                 </div>
-
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Información</h2>
                     <ul class="list-unstyled text-light footer-link-list">
