@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
-
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.models import Group
+from django.contrib import messages
 
 # Create your views here.
-
 def index(request):
     return render(request, 'core/index.html')
 
@@ -26,41 +28,7 @@ def coleccionessingle(request):
 def admingc(request):
 	return render(request, 'core/admin/admingc.html')
 
-def adminadd(request):
-    aux = {
-        'form' : ColaboradorForm()
-	}
-    
-    if request.method == 'POST':
-        formulario = ColaboradorForm(request.POST)
-        if formulario.is_valid():
-            formulario.save()
-            aux['msj'] = 'Colaborador Agregado Correctamente'
-        else:
-            aux['form'] = formulario
-            aux['msj'] = 'Error al agregar'    
-    
-    return render(request, 'core/admin/admin-add.html',aux)
-
-def adminupd(request):
-    colaboradores = Colaborador.objects.get(id=id)
-    aux = {
-        'form' : ColaboradorForm(instance=colaboradores)
-	}
-    if request.method == 'POST':
-        formulario = ColaboradorForm(request.POST, instance=colaboradores)
-        if formulario.is_valid():
-            formulario.save()
-            aux['msj'] = "Colaborador Actualizado"
-            aux['form'] = formulario
-    return render(request, 'core/admin/admin-upd.html', aux)
-
-def adminlistar(request):
-    colaboradores = Colaborador.objects.all()
-    aux = {
-         'lista' : colaboradores
-	}
-    return render(request, 'core/admin/admin-list.html', aux)
+#
 
 #def obrasadd(request):
 		#aux = {
