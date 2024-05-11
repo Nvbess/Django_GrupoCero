@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth import authenticate,login
-from django.contrib.auth.models import Group
-from django.contrib import messages
+
 
 # Create your views here.
 def index(request):
@@ -27,8 +24,6 @@ def coleccionessingle(request):
 
 def admingc(request):
 	return render(request, 'core/admin/admingc.html')
-
-#
 
 #def obrasadd(request):
 		#aux = {
