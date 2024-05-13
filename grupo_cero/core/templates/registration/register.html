@@ -35,11 +35,12 @@
                     <h5 class="mt-3 mb-5 pb-1">Bievenidos a Grupo Cero</h5>
                   </div>
                   <form class="p-5" method="POST">
-                    <h2 class="mb-3">Iniciar Sesión</h2>
+                    <h2 class="mb-3">Registro</h2>
   
                     {% csrf_token %} <!-- Token de Seguridad -->
                     {{ form | crispy }} <!-- Cargar form y Crispy Forms para usarlo -->
-  
+                    <input type="submit" class="btn btn-success" value="Registrarse">
+
                     <div class="text-center pt-1 mb-5 pb-1">
                       <input type="submit" class="btn btn-dark mt-3" value="Ingresar">
                     </div>
