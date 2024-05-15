@@ -3,14 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block contenido_registration %}
-                  <form method="POST">
+                  <form method="POST" onsubmit="Mensaje()">
                     <h2 class="mb-4 mt-5">Registro</h2>
                     {% csrf_token %} <!-- Token de Seguridad -->
                     <div class="form-row">
                       <div class="form-group col-md-12 mb-1">
                         {{ form.username|as_crispy_field }} <!-- Cargar form y Crispy Forms para usarlo -->
                       </div>
-                      <div class="row">
+                      <div class="row mt-2">
                         <div class="col mb-3">
                           {{ form.first_name|as_crispy_field }}
                         </div>
@@ -29,7 +29,7 @@
                       </div>
                     </div>
                     <div class="text-center pt-1 mb-5 pb-1">
-                      <input type="submit" class="btn btn-dark mt-3" value="Registrarse">
+                      <input type="submit" class="btn btn-dark mt-3" value="Registrarse" >
                     </div>
   
                     <div class="d-flex align-items-center justify-content-center pb-4">
@@ -37,5 +37,6 @@
                       <a class="btn btn-outline-danger" href="{% url 'login' %}" style="text-decoration: none;"">Inicia Sesión</a>
                     </div>
                   </form>
+                  
 
 {% endblock %}

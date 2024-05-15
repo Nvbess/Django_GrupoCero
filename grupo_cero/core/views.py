@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import Group
 from django.contrib import messages
 
-
 # Create your views here.
 def index(request):
     return render(request, 'core/index.html')
@@ -26,7 +25,8 @@ def artistauno(request):
 def coleccionessingle(request):
     return render(request, 'core/coleccionessingle.html')
 
-@login_required
+@login_required 
+@permission_required('is_staff')
 def admingc(request):
 	return render(request, 'core/admin/admingc.html')
 
@@ -45,8 +45,6 @@ def register(request):
             # Autenticamos al user y lo redireccionamos
             user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
             login(request, user)
-            # Mandar mensaje
-            messages.success(request, "Registro Completado!")
             # Redirecciona
             return redirect(to="index")
         else:

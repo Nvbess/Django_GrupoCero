@@ -22,7 +22,7 @@ function confirmarEliminar(id) {
     });
 }
 
-function messages(){
+function Mensaje(){
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -30,12 +30,12 @@ function messages(){
         timer: 6000,
         timerProgressBar: true,
         didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
         }
-    });
-    Toast.fire({
+      });
+      Toast.fire({
         icon: "success",
-        title: "Registro Completado Exitosamente!"
-    });
+        title: "Registro"
+      })
 }
