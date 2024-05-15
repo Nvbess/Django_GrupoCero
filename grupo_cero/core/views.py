@@ -26,6 +26,7 @@ def artistauno(request):
 def coleccionessingle(request):
     return render(request, 'core/coleccionessingle.html')
 
+@login_required
 def admingc(request):
 	return render(request, 'core/admin/admingc.html')
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" href="{% static 'core/assets/img/apple-icon.png' %}">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'core/assets/img/favicon.ico' %}">
+
+  <link rel="stylesheet" href="{% static 'core/assets/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'core/assets/css/templatemo.css' %}">
+  <link rel="stylesheet" href="{% static 'core/assets/css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'core/assets/css/estilos.css' %}">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+  <link rel="stylesheet" href="{% static 'core/assets/css/fontawesome.min.css' %}">
+  <title>Colectivo Grupo Cero</title>
+
+</head>
+<body>
+  <section class="gradient-form" style="background-color: #eee;">
+    <div class="container py-3 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-6">
+          <div class="card rounded-3 text-black">
+            <div class="row g-2">
+              <div class="col-lg-12">
+                <div class="card-body p-md-5 mx-md-5">
+
+                  <div class="text-center">
+                    <img src="{% static 'core/assets/img/logo-01.png' %}"
+                      style="width: 130px;" alt="logo">
+                  </div>
+                  {% block contenido_registration %}
+                  
+                  {% endblock %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+    <script src="{% static 'core/assets/js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'core/assets/js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'core/assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'core/assets/js/templatemo.js' %}"></script>
+    <script src="{% static 'core/assets/js/custom.js' %}"></script>
+    <script src="{% static 'core/assets/js/funciones.js' %}"></script>
+</html>

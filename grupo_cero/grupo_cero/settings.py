@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
@@ -125,6 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
