@@ -10,26 +10,6 @@ from django.contrib import messages
 def index(request):
     return render(request, 'core/index.html')
 
-def contacto(request):
-    return render(request, 'core/contacto.html')
-
-def colecciones(request):
-    return render(request, 'core/colecciones.html')
-
-def artistas(request):
-    return render(request, 'core/artistas.html')
-
-def artistauno(request):
-    return render(request, 'core/artista-single.html')
-
-def coleccionessingle(request):
-    return render(request, 'core/coleccionessingle.html')
-
-@login_required 
-@permission_required('is_staff')
-def admingc(request):
-	return render(request, 'core/admin/admingc.html')
-
 def register(request):
     aux = {
         'form' : CustomUserCreationForm()
@@ -51,6 +31,65 @@ def register(request):
             aux['form'] = formulario
             
     return render(request, 'registration/register.html', aux)
+
+
+def contacto(request):
+    return render(request, 'core/contacto.html')
+
+def colecciones(request):
+    return render(request, 'core/colecciones.html')
+
+def artistas(request):
+    return render(request, 'core/artistas.html')
+
+def artistauno(request):
+    return render(request, 'core/artista-single.html')
+
+def coleccionessingle(request):
+    return render(request, 'core/coleccionessingle.html')
+
+@login_required 
+@permission_required('is_staff')
+def admingc(request):
+	return render(request, 'core/admin/admingc.html')
+
+def adminadd(request):
+    aux = {
+        'form' : ColabCreationForm()
+    }
+    
+    if request.method == 'POST':
+        formulario = ColabCreationForm(data=request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            # AÑADIMOS EL GRUPO CLIENTE AL USUARIO
+            group = Group.objects.get(name='Colaborador')
+            user.groups.add(group)
+            # Redirecciona
+            return redirect(to="admingc")
+        else:
+            aux['form'] = formulario
+            
+    return render(request, 'core/admin/admin-add.html', aux)
+
+def adminupd(request):
+    return render(request, 'core/admin/admin-upd.html')
+
+def adminlist(request):
+    return render(request, 'core/admin/admin-list.html')
+
+def colabgc(request):
+    return render(request, 'core/colab/colabgc.html')
+
+def colabadd(request):
+    return render(request, 'core/colab/colab-add.html')
+
+def colabupd(request):
+    return render(request, 'core/colab/colab-upd.html')
+
+def colablist(request):
+    return render(request, 'core/colab/colab-list.html')
+
 
              
 #def obrasadd(request):

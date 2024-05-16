@@ -11,3 +11,11 @@ class CustomUserCreationForm(UserCreationForm):
         help_texts = {
             'username': None
         }
+
+class ColabCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name','email', 'password1', 'password2']
+        help_texts = {
+            'username': None
+        }

@@ -2,22 +2,53 @@
 {% load static %}
 {% block contenido_adm %}
 
-<form id="creacion-cuenta" action="">
-    {% csrf_token %}
-    <h2 class="h3 mb-3 fw-normal">Creacion cuenta cooperativa</h2>
-    <div id="user-admin" class="mb-3 mt-3">
-        <label for="user" class="form-label">Username:</label>
-        <input type="user" class="form-control" id="user" placeholder="" name="user">
+{% load crispy_forms_tags %}
+<div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-6">
+            <div class="card rounded-3 text-black">
+                <div class="row g-2">
+                    <div class="col-lg-12">
+                        <div class="card-body p-md-5 mx-md-5">
+                            <form method="POST" onsubmit="Mensaje()">
+                                <h2 class="mb-5 mt-5" style="text-align: center;">Registrar Colaborador</h2>
+                                {% csrf_token %} <!-- Token de Seguridad -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 mb-1">
+                                        {{ form.username|as_crispy_field }}
+                                        <!-- Cargar form y Crispy Forms para usarlo -->
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col mb-3">
+                                            {{ form.first_name|as_crispy_field }}
+                                        </div>
+                                        <div class="col mb-3">
+                                            {{ form.last_name|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 mb-3">
+                                        {{ form.email|as_crispy_field }}
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col mb-3">
+                                            {{ form.password1|as_crispy_field }}
+                                        </div>
+                                        <div class="col mb-3">
+                                            {{ form.password2|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center pt-1 mt-2 mb-5 pb-1">
+                                    <input type="submit" class="btn btn-dark mt-3" value="Registrarse">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="correo-admin" class="mb-3 mt-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="" name="email">
-    </div>
-    <div id="pass-admin" class="mb-3">
-        <label for="pwd" class="form-label">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="" name="pswd">
-    </div>
-    <button id="creacionbtn" type="submit" class="btn btn-dark">Crear</button>
-</form>
+</div>
+
 
 {% endblock %}

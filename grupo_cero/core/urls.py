@@ -10,5 +10,12 @@ urlpatterns = [
         path('coleccionessingle/',coleccionessingle,name="coleccionessingle"),
         path('artistauno/',artistauno,name="artistauno"),
         path('admingc/',admingc,name="admingc"),
+        path('adminadd/',adminadd,name="adminadd"),
+        path('adminupd/',adminupd,name="adminupd"),
+        path('adminlist/',adminlist,name="adminlist"),
         path('register/',register,name="register"),
+        path('colabgc/',colabgc,name="colabgc"),
+        path('colabadd/',colabadd,name="colabadd"),
+        path('colabupd/',colabupd,name="colabupd"),
+        path('colablist/',colablist,name="colablist"),
 	]
