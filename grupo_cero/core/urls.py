@@ -8,7 +8,7 @@ urlpatterns = [
         path('colecciones/',colecciones,name="colecciones"),
         path('artistas/',artistas,name="artistas"),
         path('coleccionessingle/',coleccionessingle,name="coleccionessingle"),
-        path('artistauno/',artistauno,name="artistauno"),
+        path('artistasingle/',artistasingle,name="artistasingle"),
         path('admingc/',admingc,name="admingc"),
         path('adminadd/',adminadd,name="adminadd"),
         path('adminupd/',adminupd,name="adminupd"),
@@ -18,4 +18,5 @@ urlpatterns = [
         path('colabadd/',colabadd,name="colabadd"),
         path('colabupd/',colabupd,name="colabupd"),
         path('colablist/',colablist,name="colablist"),
+        path('artista2/',artistas2,name="artista2"),
 	]

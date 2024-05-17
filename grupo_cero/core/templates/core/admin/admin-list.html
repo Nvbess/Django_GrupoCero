@@ -1,0 +1,29 @@
+{% extends 'core/admin/admingc.html' %}
+{% load static %}
+{% block contenido_adm %}
+<div class="container mt-3">
+    <h2>Administrar Cuentas</h2>
+    <table class="table table-dark table-hover">
+        <thead>
+            {% for colaborador in colaboradores %}
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ colaborador.username }}</td>
+                <td>{{ colaborador.email }}</td>
+                <td><a href="#"><button>modificar</button></a></td>
+                <td><a href="#"><button>Eliminar</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

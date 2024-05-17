@@ -3,7 +3,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group,User
 from django.contrib import messages
 
 # Create your views here.
@@ -42,11 +42,14 @@ def colecciones(request):
 def artistas(request):
     return render(request, 'core/artistas.html')
 
-def artistauno(request):
-    return render(request, 'core/artista-single.html')
+def artistasingle(request):
+    return render(request, 'core/artistasingle.html')
 
 def coleccionessingle(request):
     return render(request, 'core/coleccionessingle.html')
+
+def artistas2(request):
+    	return render(request, 'core/artistas-alt.html')
 
 @login_required 
 @permission_required('is_staff')
@@ -72,9 +75,13 @@ def adminadd(request):
             
     return render(request, 'core/admin/admin-add.html', aux)
 
+@login_required 
+@permission_required('is_staff')
 def adminupd(request):
     return render(request, 'core/admin/admin-upd.html')
 
+@login_required 
+@permission_required('is_staff')
 def adminlist(request):
     return render(request, 'core/admin/admin-list.html')
 
@@ -89,6 +96,19 @@ def colabupd(request):
 
 def colablist(request):
     return render(request, 'core/colab/colab-list.html')
+
+@login_required
+@permission_required('is_staff')
+def adminlist(request):
+    # Obtener el grupo "Colaborador"
+    grupo_colaboradores = Group.objects.get(name='Colaborador')
+    # Obtener los usuarios que pertenecen a este grupo
+    colaboradores = User.objects.filter(groups=grupo_colaboradores).values('username', 'email')
+    context = {
+        'colaboradores': colaboradores
+    }
+    return render(request, 'core/admin/admin-list.html', context)
+
 
 
              
