@@ -19,3 +19,9 @@ class ColabCreationForm(UserCreationForm):
         help_texts = {
             'username': None
         }
+
+class ArteCreationForm(forms.ModelForm):
+    class Meta:
+        model = Arte
+        fields = ['titulo','autor','descripcion','valor','imagen','categoria']
+

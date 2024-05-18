@@ -51,6 +51,8 @@ def coleccionessingle(request):
 def artistas2(request):
     	return render(request, 'core/artistas-alt.html')
 
+# ADMIN VIEWS
+
 @login_required 
 @permission_required('is_staff')
 def admingc(request):
@@ -80,23 +82,6 @@ def adminadd(request):
 def adminupd(request):
     return render(request, 'core/admin/admin-upd.html')
 
-@login_required 
-@permission_required('is_staff')
-def adminlist(request):
-    return render(request, 'core/admin/admin-list.html')
-
-def colabgc(request):
-    return render(request, 'core/colab/colabgc.html')
-
-def colabadd(request):
-    return render(request, 'core/colab/colab-add.html')
-
-def colabupd(request):
-    return render(request, 'core/colab/colab-upd.html')
-
-def colablist(request):
-    return render(request, 'core/colab/colab-list.html')
-
 @login_required
 @permission_required('is_staff')
 def adminlist(request):
@@ -108,6 +93,31 @@ def adminlist(request):
         'colaboradores': colaboradores
     }
     return render(request, 'core/admin/admin-list.html', context)
+
+# COLABORADOR VIEWS
+
+def colabgc(request):
+    return render(request, 'core/colab/colabgc.html')
+
+def colabadd(request):
+    aux = {
+        'form' : ArteCreationForm()
+    }
+    if request.method == 'POST':
+        formulario = ArteCreationForm(request.POST , request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+        else:
+            aux['form'] = formulario
+    return render(request, 'core/colab/colab-add.html', aux)
+
+def colabupd(request):
+    return render(request, 'core/colab/colab-upd.html')
+
+def colablist(request):
+    return render(request, 'core/colab/colab-list.html')
+
+
 
 
 
