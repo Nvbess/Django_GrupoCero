@@ -103,12 +103,14 @@ def colabadd(request):
     aux = {
         'form' : ArteCreationForm()
     }
+
     if request.method == 'POST':
-        formulario = ArteCreationForm(request.POST , request.FILES)
+        formulario = ArteCreationForm(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
         else:
             aux['form'] = formulario
+
     return render(request, 'core/colab/colab-add.html', aux)
 
 def colabupd(request):
