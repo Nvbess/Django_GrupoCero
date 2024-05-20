@@ -58,6 +58,8 @@ def artistas2(request):
 def admingc(request):
 	return render(request, 'core/admin/admingc.html')
 
+@login_required
+@permission_required('is_staff')
 def adminadd(request):
     aux = {
         'form' : ColabCreationForm()
@@ -93,6 +95,13 @@ def adminlist(request):
         'colaboradores': colaboradores
     }
     return render(request, 'core/admin/admin-list.html', context)
+
+def adminEliminar(request):
+     if request.method == 'POST':
+        username = request.POST.get('username')
+        grupo_colaborador = Group.objects.get(name='Colaborador')
+        usuario = grupo_colaborador.user_set.get(username=username)
+        usuario.delete()
 
 # COLABORADOR VIEWS
 
