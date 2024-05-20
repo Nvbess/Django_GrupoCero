@@ -9,6 +9,7 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +19,7 @@
                     <td>{{ colaborador.username }}</td>
                     <td>{{ colaborador.email }}</td>
                     <td><button><a href="{% url 'adminupd' colaborador.username %}"> Modificar </a></button></td>
-                    <td><button><a onclick="confirmarEliminar(colaborador.username)"> Eliminar </a></button></td>
+                    <td><button><a onclick="confirmarEliminar('{{ colaborador.username }}')"> Eliminar </a></button></td>
                 </tr>
             </div>
             

@@ -16,7 +16,7 @@ function confirmarEliminar(username) {
                 icon: "success"
                 // Creamos un then luego del boton de confirmación para ejecutar la acción en la BD //
             }).then(function () {
-                window.location.href = "adminlist/delete/" + username + "/";
+                window.location.href = "delete/" + username + "/";
             });
         }
     });

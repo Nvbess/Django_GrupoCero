@@ -94,9 +94,16 @@ def adminlist(request):
 @login_required
 @permission_required('is_staff')
 def admindel(request, username):    
-    u = User.objects.get(username = username)
-    u.delete()
+    try:
+        u = User.objects.get(username = username)
+        u.delete()
+        messages.sucess(request, "The user is deleted")
+    except:
+      messages.error(request, "The user not found")    
     return redirect('adminlist') 
+
+def adminupd(request):
+    return render(request, 'core/admin/admin-list.html')
 
 @login_required
 @permission_required('is_staff')
