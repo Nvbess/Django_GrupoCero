@@ -18,11 +18,12 @@
                         <th>Precio</th>
                     </tr>
                 
-                    {% for s in solicitudes %}
+                    {% for s in obras %}
                     <tr>
                         <td>{{ s.titulo }}</td>
                         <td>{{ s.autor }}</td>
                         <td>{{ s.categoria }}</td>
+                        <td>{{ s.habilitado }}</td>
                         <td>${{ s.valor }}</td>
                     </tr>
                 

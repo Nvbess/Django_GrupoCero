@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img src="{{ s.imagen.url }}" class="img-fluid rounded-start">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ s.titulo }}</h2>
+                        <a href="#" style="text-decoration: none;"><p class="card-text-small"><small class="text-body-secondary">{{ s.autor }}</small></p></a>
+                        <p class="card-text">{{ s.descripcion }}</p>
+                        <a href="#" class="btn btn-dark">Añadir al carrito</a>
+                        <h4>{{ s.valor }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

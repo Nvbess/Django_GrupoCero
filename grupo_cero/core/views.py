@@ -37,7 +37,10 @@ def contacto(request):
     return render(request, 'core/contacto.html')
 
 def colecciones(request):
-    return render(request, 'core/colecciones.html')
+    publicaciones = Arte.objects.all()
+    aux = {'obras': publicaciones}
+
+    return render(request, 'core/colecciones.html', aux)
 
 def artistas(request):
     return render(request, 'core/artistas.html')
@@ -45,8 +48,11 @@ def artistas(request):
 def artistasingle(request):
     return render(request, 'core/artista-single.html')
 
-def coleccionessingle(request):
-    return render(request, 'core/coleccionessingle.html')
+def obra(request, titulo):
+    publicaciones = Arte.objects.get(titulo = titulo)
+    aux = {'obras': publicaciones}
+
+    return render(request, 'core/obra.html', aux)
 
 def artistas2(request):
     	return render(request, 'core/artistas-alt.html')
@@ -74,8 +80,6 @@ def adminadd(request):
             # AÑADIMOS EL GRUPO CLIENTE AL USUARIO
             group = Group.objects.get(name='Colaborador')
             user.groups.add(group)
-            # Redirecciona
-            return redirect(to="admingc")
         else:
             aux['form'] = formulario
             
@@ -129,26 +133,22 @@ def colabgc(request):
     return render(request, 'core/colab/colabgc.html')
 
 def colabadd(request):
-    aux = {
-        'form' : ArteCreationForm()
-    }
-
     if request.method == 'POST':
-        formulario = ArteCreationForm(data=request.POST, files=request.FILES)
+        formulario = ArteCreationForm(request.POST, request.FILES)
         if formulario.is_valid():
             formulario.save()
         else:
-            aux['form'] = formulario
+            aux = {'form':formulario}
+            return render(request, 'core/colab/colab-add.html', aux)
 
+    aux = {'form' : ArteCreationForm()}
     return render(request, 'core/colab/colab-add.html', aux)
 
 def colabupd(request):
     return render(request, 'core/colab/colab-upd.html')
 
 def colablist(request):
-    solicitudes = Arte.objects.all()
+    publicaciones = Arte.objects.all()
 
-    aux = {
-        'solicitudes': solicitudes
-    }
+    aux = {'obras': publicaciones}
     return render(request, 'core/colab/colab-list.html', aux)

@@ -5,37 +5,6 @@
 <!-- Start Content -->
 <div class="container py-5" style="margin-top: 4%;">
     <div class="row">
-        <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Artistas
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Gracia Barrios</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Roberto Matta</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Claude Monet</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Joan Miro</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Categorias
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Pintura y Grabado</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Escultura</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Fotografía</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Serigrafía</a></li>
-                        <li><a class="text-decoration-none" style="margin-left: 30%;" href="#">Xilografía</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-md-6">
@@ -57,195 +26,30 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-01.jpg' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
+            {% for s in obras %}
+                {% if s.habilitado == True %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
+                            <div class="card rounded-0">
+                                <a href="#">
+                                    <img class="card-img" src="{{ s.imagen.url }}">
+                                </a>
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <ul class="list-unstyled">
+                                        <li><a class="btn btn-dark text-white mt-2" href="{% url 'obra' s.titulo %}"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-dark text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ s.titulo }}</h5>
+                                <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">{{ s.autor }}</p></a>
+                                <p class="card-text">{{ s.valor }}</p>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-02.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-03.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-02.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-01.jpg' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-03.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-02.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-03.png' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'coleccionessingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/banner-01.jpg' %}">
-                            </a>
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-dark text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Espejo de Cronos</h5>
-                            <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">Roberto Matta</p></a>
-                            <p class="card-text">$12.000.000</p>
-                        </div>
-                    </div>
-                </div>
+                {% endif %}
+            {% endfor %}
             </div>
             <div div="row">
                 <ul class="pagination pagination-lg justify-content-center">

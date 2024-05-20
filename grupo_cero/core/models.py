@@ -17,5 +17,9 @@ class Arte(models.Model):
     mensaje = models.CharField(max_length=150, default='')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
+    def delete(self):
+        self.imagen.delete()
+        super().delete()
+
     def __str__(self):
         return self.titulo
