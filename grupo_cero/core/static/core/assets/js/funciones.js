@@ -1,4 +1,4 @@
-function confirmarEliminar(id) {
+function confirmarEliminar(username) {
     Swal.fire({
         title: "Esta seguro de querer eliminar?",
         text: "Esta acción no se puede deshacer",
@@ -16,7 +16,7 @@ function confirmarEliminar(id) {
                 icon: "success"
                 // Creamos un then luego del boton de confirmación para ejecutar la acción en la BD //
             }).then(function () {
-                window.location.href = "delete/" + id + "/";
+                window.location.href = "adminlist/delete/" + username + "/";
             });
         }
     });

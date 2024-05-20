@@ -96,7 +96,6 @@ def adminlist(request):
 def admindel(request, username):    
     u = User.objects.get(username = username)
     u.delete()
-    messages.success(request, "The user is deleted")
     return redirect('adminlist') 
 
 @login_required
@@ -114,10 +113,10 @@ def adminupd(request, username):
         else:
             aux['form'] = formulario
             
-    return render(request, 'core/admin/admin-add.html', aux)
+    return render(request, 'core/admin/admin-upd.html', aux)
 
 
-# COLABORADOR VIEWS
+#                           COLABORADOR VIEWS
 
 def colabgc(request):
     return render(request, 'core/colab/colabgc.html')

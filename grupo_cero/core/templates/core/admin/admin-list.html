@@ -13,11 +13,15 @@
         </thead>
         <tbody>
             {% for colaborador in colaboradores %}
-            <tr>
-                <td>{{ colaborador.username }}</td>
-                <td>{{ colaborador.email }}</td>
-                <td><a href="delete/{{ colaborador.username }}"><button>Eliminar</button></a></td>
-            </tr>
+            <div>
+                <tr>
+                    <td>{{ colaborador.username }}</td>
+                    <td>{{ colaborador.email }}</td>
+                    <td><button><a href="{% url 'adminupd' colaborador.username %}"> Modificar </a></button></td>
+                    <td><button><a onclick="confirmarEliminar(colaborador.username)"> Eliminar </a></button></td>
+                </tr>
+            </div>
+            
             {% endfor %}
         </tbody>
     </table>
