@@ -6,13 +6,13 @@ function confirmarEliminar(username) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Si, Eliminar!"
         // desde acá se inicia la confirmación a la cual le agregamos la combinacion con el sistema //
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "Eliminada!",
-                text: "La obra ha sido eliminada",
+                title: "Eliminado!",
+                text: "El colaborador ha sido eliminado",
                 icon: "success"
                 // Creamos un then luego del boton de confirmación para ejecutar la acción en la BD //
             }).then(function () {

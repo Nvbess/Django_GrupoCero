@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required, permission_required
@@ -51,7 +51,9 @@ def coleccionessingle(request):
 def artistas2(request):
     	return render(request, 'core/artistas-alt.html')
 
-# ADMIN VIEWS
+##########################################################
+##############      ADMIN VIEWS       ####################
+##########################################################
 
 @login_required 
 @permission_required('is_staff')
@@ -79,17 +81,19 @@ def adminadd(request):
             
     return render(request, 'core/admin/admin-add.html', aux)
 
+
 @login_required
 @permission_required('is_staff')
 def adminlist(request):
     # Obtener el grupo "Colaborador"
     grupo_colaboradores = Group.objects.get(name='Colaborador')
     # Obtener los usuarios que pertenecen a este grupo
-    colaboradores = User.objects.filter(groups=grupo_colaboradores).values('username', 'email')
+    colaboradores = User.objects.filter(groups=grupo_colaboradores).values('first_name','last_name','username', 'email')
     context = {
         'colaboradores': colaboradores
     }
     return render(request, 'core/admin/admin-list.html', context)
+
 
 @login_required
 @permission_required('is_staff')
@@ -102,29 +106,24 @@ def admindel(request, username):
       messages.error(request, "The user not found")    
     return redirect('adminlist') 
 
-def adminupd(request):
-    return render(request, 'core/admin/admin-list.html')
 
 @login_required
 @permission_required('is_staff')
 def adminupd(request, username):
-    u = User.objects.get(username = username)
-    aux = {
-        'form' : ColabCreationForm(instance=u)
-    }
-    
+    u = get_object_or_404(User, username=username)
     if request.method == 'POST':
         formulario = ColabCreationForm(data=request.POST, instance=u)
         if formulario.is_valid():
             formulario.save()
-            aux['form'] = formulario
-        else:
-            aux['form'] = formulario
+            return redirect('adminlist')
+    else:
+        formulario = ColabCreationForm(instance=u)
             
-    return render(request, 'core/admin/admin-upd.html', aux)
+    return render(request, 'core/admin/admin-upd.html', {'form': formulario})
 
-
-#                           COLABORADOR VIEWS
+##########################################################
+##############      COLABORADOR VIEWS       ##############
+##########################################################
 
 def colabgc(request):
     return render(request, 'core/colab/colabgc.html')
