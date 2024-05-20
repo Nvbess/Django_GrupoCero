@@ -1,0 +1,38 @@
+{% extends 'core/colab/colabgc.html' %}
+{% load static %}
+{% block contenido_colab %}
+
+{% load crispy_forms_tags %}
+<br><br>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h2>Listado Solicitudes</h2>
+                <hr>
+                <table class="table table-striped table-hover table-responsive-sm">
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                    </tr>
+                
+                    {% for s in solicitudes %}
+                    <tr>
+                        <td>{{ s.titulo }}</td>
+                        <td>{{ s.autor }}</td>
+                        <td>{{ s.categoria }}</td>
+                        <td>${{ s.valor }}</td>
+                    </tr>
+                
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
