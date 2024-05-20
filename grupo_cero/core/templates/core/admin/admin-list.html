@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ colaborador.username }}</td>
                 <td>{{ colaborador.email }}</td>
-                <td><button>Eliminar</button></td>
+                <td><a href="delete/{{ colaborador.username }}"><button>Eliminar</button></a></td>
             </tr>
             {% endfor %}
         </tbody>

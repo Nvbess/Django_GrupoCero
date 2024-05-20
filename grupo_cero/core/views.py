@@ -43,7 +43,7 @@ def artistas(request):
     return render(request, 'core/artistas.html')
 
 def artistasingle(request):
-    return render(request, 'core/artistasingle.html')
+    return render(request, 'core/artista-single.html')
 
 def coleccionessingle(request):
     return render(request, 'core/coleccionessingle.html')
@@ -79,11 +79,6 @@ def adminadd(request):
             
     return render(request, 'core/admin/admin-add.html', aux)
 
-@login_required 
-@permission_required('is_staff')
-def adminupd(request):
-    return render(request, 'core/admin/admin-upd.html')
-
 @login_required
 @permission_required('is_staff')
 def adminlist(request):
@@ -96,12 +91,20 @@ def adminlist(request):
     }
     return render(request, 'core/admin/admin-list.html', context)
 
-def adminEliminar(request):
-     if request.method == 'POST':
-        username = request.POST.get('username')
-        grupo_colaborador = Group.objects.get(name='Colaborador')
-        usuario = grupo_colaborador.user_set.get(username=username)
-        usuario.delete()
+@login_required
+@permission_required('is_staff')
+def admindel(request, username):    
+    try:
+        u = User.objects.get(username = username)
+        u.delete()
+        messages.sucess(request, "The user is deleted")
+    except:
+      messages.error(request, "The user not found")    
+    return redirect('adminlist') 
+
+def adminupd(request):
+    return render(request, 'core/admin/admin-list.html')
+
 
 # COLABORADOR VIEWS
 
@@ -172,3 +175,7 @@ def colablist(request):
 		#}
 
 		#return render(request, 'core/obras/obras.html', aux)
+
+
+
+
