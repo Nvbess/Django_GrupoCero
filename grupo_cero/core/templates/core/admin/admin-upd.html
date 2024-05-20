@@ -13,10 +13,6 @@
                                 <h2 class="mb-5 mt-5" style="text-align: center;">Modificar Colaborador</h2>
                                 {% csrf_token %} <!-- Token de Seguridad -->
                                 <div class="form-row">
-                                    <div class="form-group col-md-12 mb-1">
-                                        {{ form.username|as_crispy_field }}
-                                        <!-- Cargar form y Crispy Forms para usarlo -->
-                                    </div>
                                     <div class="row mt-2">
                                         <div class="col mb-3">
                                             {{ form.first_name|as_crispy_field }}

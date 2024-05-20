@@ -117,6 +117,7 @@ def adminupd(request, username):
         formulario = ColabCreationForm(data=request.POST, instance=u)
         if formulario.is_valid():
             formulario.save()
+            aux['form'] = formulario
         else:
             aux['form'] = formulario
             
