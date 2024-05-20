@@ -129,7 +129,12 @@ def colabupd(request):
     return render(request, 'core/colab/colab-upd.html')
 
 def colablist(request):
-    return render(request, 'core/colab/colab-list.html')
+    solicitudes = Arte.objects.all()
+
+    aux = {
+        'solicitudes': solicitudes
+    }
+    return render(request, 'core/colab/colab-list.html', aux)
 
 
 
