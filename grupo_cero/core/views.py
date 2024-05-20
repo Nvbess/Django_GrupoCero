@@ -99,8 +99,22 @@ def admindel(request, username):
     messages.success(request, "The user is deleted")
     return redirect('adminlist') 
 
-def adminupd(request):
-    return render(request, 'core/admin/admin-list.html')
+@login_required
+@permission_required('is_staff')
+def adminupd(request, username):
+    u = User.objects.get(username = username)
+    aux = {
+        'form' : ColabCreationForm(instance=u)
+    }
+    
+    if request.method == 'POST':
+        formulario = ColabCreationForm(data=request.POST, instance=u)
+        if formulario.is_valid():
+            formulario.save()
+        else:
+            aux['form'] = formulario
+            
+    return render(request, 'core/admin/admin-add.html', aux)
 
 
 # COLABORADOR VIEWS
@@ -132,52 +146,3 @@ def colablist(request):
         'solicitudes': solicitudes
     }
     return render(request, 'core/colab/colab-list.html', aux)
-
-
-
-
-
-             
-#def obrasadd(request):
-		#aux = {
-		#	'form' : ObraForm()
-		#}
-
-		#if request.method == 'POST':
-		#	formulario = ObraForm(request.POST)
-		#	if formulario.is_valid():
-		#		formulario.save()
-		#		aux['msj'] = "Empleado guardado correctamente!"
-		#	else:
-		#		aux['form'] = formulario
-
-		#return render(request, 'core/obras/crud/add.html', aux)
-    		
-
-#def obrasupd(request, id):
-		
-		#obra = Obra.objects.get(id=id)
-		#aux = {
-		#	'form' : ObraForm(instance=obra)
-		#}
-		#if request.method == 'POST':
-		#	formulario = ObraForm(request.POST, instance=obra)
-		#	if formulario.is_valid():
-		#		formulario.save()
-		#		aux['msj'] = "Empleado modificado correctamente!"
-		#		aux['form'] = formulario
-		#		
-#
-#		return render(request, 'core/obras/crud/actualizar.html', aux)
-
-#def obras(request):
-		#obras = Obra.objects.all()
-		#aux = {
-		#	'lista' : obras
-		#}
-
-		#return render(request, 'core/obras/obras.html', aux)
-
-
-
-
