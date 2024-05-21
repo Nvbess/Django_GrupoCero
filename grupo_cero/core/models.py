@@ -23,3 +23,10 @@ class Arte(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class Autor(models.Model):
+    nombre = models.CharField(max_length=150)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
