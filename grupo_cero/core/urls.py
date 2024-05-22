@@ -1,7 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
+
+# CONFIGURACION API
+router = routers.DefaultRouter()
+router.register('Arte', ArteViewset)
+router.register('Autor', AutorViewset)
 
 
 urlpatterns = [
@@ -23,5 +29,8 @@ urlpatterns = [
         path('colablist/',colablist,name="colablist"),
         path('colabautor/',colabautor,name="colabautor"),
         path('artista2/',artistas2,name="artista2"),
+        # API
+        path('api/', include(router.urls)),
+        path('arte', ArteAPI, name='arte'),
 	]
 

@@ -56,12 +56,13 @@
                     </div>
                 </div>
             </div>
+            {% for s in autor %}
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
                         <div class="card rounded-0">
                             <a href="{% url 'artistasingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/Gracia_Barrios.jpg' %}">
+                                <img class="card-img" src="{{ s.imagen.url }}">
                             </a>
                             <div
                                 class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
@@ -72,96 +73,15 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Gracia Berrios</h5>
+                            <h5 class="card-title">{{ s.nombre }}</h5>
                             <a href="{% url 'artistasingle' %}" style="text-decoration: none; color: #222;">
                                 <p class="card-text mb-2">Pintora Chilena</p>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'artistasingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/roberto-matta.jpg' %}">
-                            </a>
-                            <div
-                                class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white mt-2" href="{% url 'artistasingle' %}"><i
-                                                class="far fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Roberto Matta</h5>
-                            <a href="#" style="text-decoration: none; color: #222;">
-                                <p class="card-text mb-2">Arquitecto y Pintor Chileno</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'artistasingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/claude_monet_4.jpg' %}">
-                            </a>
-                            <div
-                                class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white mt-2" href="{% url 'artistasingle' %}"><i
-                                                class="far fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Claude Monnet</h5>
-                            <a href="#" style="text-decoration: none; color: #222;">
-                                <p class="card-text mb-2">Pintor Francés</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
-                        <div class="card rounded-0">
-                            <a href="{% url 'artistasingle' %}">
-                                <img class="card-img" src="{% static 'core/assets/img/4016_376599_miro.jpg' %}">
-                            </a>
-                            <div
-                                class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white mt-2" href="{% url 'artistasingle' %}"><i
-                                                class="far fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Joan Miro</h5>
-                            <a href="#" style="text-decoration: none; color: #222;">
-                                <p class="card-text mb-2">Pintor y Escultor Español</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div div="row">
-                    <ul class="pagination pagination-lg justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#"
-                                tabindex="-1">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-                                href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
-
+            {% endfor %}
         </div>
     </div>
     <!-- End Content -->

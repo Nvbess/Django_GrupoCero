@@ -5,6 +5,30 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import Group,User
+from rest_framework import viewsets
+from .serializers import *
+from rest_framework.renderers import JSONRenderer
+import requests
+
+#UTILIZAMOS LOS VIEWSETS PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
+class ArteViewset(viewsets.ModelViewSet):
+    queryset = Arte.objects.all()
+    serializer_class = ArteSerializer
+    renderer_classes = [JSONRenderer]
+
+class AutorViewset(viewsets.ModelViewSet):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+    renderer_classes = [JSONRenderer]
+
+# CONSUMO DE API
+def ArteAPI(request):
+    response = requests.get('http://127.0.0.1:8000/api/Arte/')
+    arte = response.json()
+
+    aux = {'obras' : arte}
+
+    return render(request, 'core/crudapi/index.html', aux) 
 
 
 # Create your views here.
@@ -54,7 +78,10 @@ def coleccion_detalle(request, id):
     return render(request, 'core/obra.html', {'obra': obra})
 
 def artistas2(request):
-    	return render(request, 'core/artistas-alt.html')
+    biografia = Autor.objects.all()
+
+    aux = {'autor': biografia}
+    return render(request, 'core/artistas-alt.html', aux)
 
 ##########################################################
 ##############      ADMIN VIEWS       ####################
