@@ -17,7 +17,8 @@ class ColabCreationForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name','email', 'password1', 'password2']
         help_texts = {
-            'username': None
+            'username': None,
+            'password1': None
         }
 
     def clean_username(self):
