@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import Group,User
 from rest_framework import viewsets
@@ -10,26 +10,8 @@ from .serializers import *
 from rest_framework.renderers import JSONRenderer
 import requests
 
-#UTILIZAMOS LOS VIEWSETS PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
-class ArteViewset(viewsets.ModelViewSet):
-    queryset = Arte.objects.all()
-    serializer_class = ArteSerializer
-    renderer_classes = [JSONRenderer]
-
-class AutorViewset(viewsets.ModelViewSet):
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
-    renderer_classes = [JSONRenderer]
-
-# CONSUMO DE API
-def ArteAPI(request):
-    response = requests.get('http://127.0.0.1:8000/api/Arte/')
-    arte = response.json()
-
-    aux = {'obras' : arte}
-
-    return render(request, 'core/crudapi/index.html', aux) 
-
+def in_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
 
 # Create your views here.
 def index(request):
@@ -156,9 +138,13 @@ def adminupd(request, username):
 ##############      COLABORADOR VIEWS       ##############
 ##########################################################
 
+@login_required
+@user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colabgc(request):
     return render(request, 'core/colab/colabgc.html')
 
+@login_required
+@user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colabautor(request):
     if request.method == 'POST':
         formulario = ArtistaCreationForm(request.POST, request.FILES)
@@ -172,6 +158,8 @@ def colabautor(request):
     aux = {'form' : ArtistaCreationForm()}
     return render(request, 'core/colab/colab-autor.html', aux)
 
+@login_required
+@user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colabadd(request):
     if request.method == 'POST':
         formulario = ArteCreationForm(request.POST, request.FILES)
@@ -185,11 +173,41 @@ def colabadd(request):
     aux = {'form' : ArteCreationForm()}
     return render(request, 'core/colab/colab-add.html', aux)
 
+@login_required
+@user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colabupd(request):
     return render(request, 'core/colab/colab-upd.html')
 
+@login_required
+@user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colablist(request):
     publicaciones = Arte.objects.all()
 
     aux = {'obras': publicaciones}
     return render(request, 'core/colab/colab-list.html', aux)
+
+##########################################################
+##############      SECCION DE APIS         ##############
+##########################################################
+
+
+#UTILIZAMOS LOS VIEWSETS PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
+class ArteViewset(viewsets.ModelViewSet):
+    queryset = Arte.objects.all()
+    serializer_class = ArteSerializer
+    renderer_classes = [JSONRenderer]
+
+class AutorViewset(viewsets.ModelViewSet):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+    renderer_classes = [JSONRenderer]
+
+# CONSUMO DE API
+def ArteAPI(request):
+    response = requests.get('http://127.0.0.1:8000/api/Arte/')
+    arte = response.json()
+
+    aux = {'obras' : arte}
+
+    return render(request, 'core/crudapi/index.html', aux) 
+
