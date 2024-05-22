@@ -23,7 +23,7 @@ class ColabCreationForm(UserCreationForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError("This username is already taken.")
+            raise forms.ValidationError("Este usuario ya existe!")
         return username
 
 class ArteCreationForm(forms.ModelForm):

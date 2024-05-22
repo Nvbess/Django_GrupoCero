@@ -16,7 +16,7 @@ urlpatterns = [
         path('colecciones/',colecciones,name="colecciones"),
         path('obra/<int:id>/',coleccion_detalle,name="coleccion_detalle"),
         path('artistas/',artistas,name="artistas"),
-        path('artistasingle/',artistasingle,name="artistasingle"),
+        path('artista/<int:id>/',artista_detalle,name="artista_detalle"),
         path('admingc/',admingc,name="admingc"),
         path('adminadd/',adminadd,name="adminadd"),
         path('adminlist/',adminlist,name="adminlist"),
@@ -28,7 +28,6 @@ urlpatterns = [
         path('colabupd/',colabupd,name="colabupd"),
         path('colablist/',colablist,name="colablist"),
         path('colabautor/',colabautor,name="colabautor"),
-        path('artista2/',artistas2,name="artista2"),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),

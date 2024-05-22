@@ -49,21 +49,20 @@ def colecciones(request):
     aux = {'obras': publicaciones}
     return render(request, 'core/colecciones.html', aux)
 
-def artistas(request):
-    return render(request, 'core/artistas.html')
-
-def artistasingle(request):
-    return render(request, 'core/artista-single.html')
-
 def coleccion_detalle(request, id):
     obra = get_object_or_404(Arte, id=id)
     return render(request, 'core/obra.html', {'obra': obra})
 
-def artistas2(request):
+def artistas(request):
     biografia = Autor.objects.all()
 
     aux = {'autor': biografia}
-    return render(request, 'core/artistas-alt.html', aux)
+
+    return render(request, 'core/artistas.html', aux)
+
+def artista_detalle(request, id):
+    autor = get_object_or_404(Autor, id=id)
+    return render(request, 'core/artista-detalle.html', {'autor': autor})
 
 ##########################################################
 ##############      ADMIN VIEWS       ####################
