@@ -27,6 +27,12 @@ class Arte(models.Model):
 class Autor(models.Model):
     nombre = models.CharField(max_length=150)
     descripcion = models.TextField()
+    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
+
+    def delete(self):
+        self.imagen.delete()
+        super().delete()
+
 
     def __str__(self):
         return self.nombre

@@ -21,6 +21,7 @@ urlpatterns = [
         path('colabadd/',colabadd,name="colabadd"),
         path('colabupd/',colabupd,name="colabupd"),
         path('colablist/',colablist,name="colablist"),
+        path('colabautor/',colabautor,name="colabautor"),
         path('artista2/',artistas2,name="artista2"),
 	]
 

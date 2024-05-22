@@ -21,7 +21,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"">COLAB</a>
+            <a class="navbar-brand" href="{% url 'colabgc' %}">COLAB</a>
             <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -31,11 +31,15 @@
                             <a class="nav-link" href="{% url 'colabadd' %}">Crear Solicitud</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'colabautor' %}">Crear Artista</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'colablist' %}">Ver Solicitudes</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <a href="#" class="btn btn-success">Sign Out</a>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn btn-success" type="submit" value="Cerrar Sesión">
                     </form>
                 </div>
         </div>

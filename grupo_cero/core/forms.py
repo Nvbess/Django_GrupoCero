@@ -31,3 +31,9 @@ class ArteCreationForm(forms.ModelForm):
         model = Arte
         fields = ['titulo','autor','descripcion','valor','imagen','categoria']
 
+class ArtistaCreationForm(forms.ModelForm):
+    class Meta:
+        model =  Autor
+        fields = ['nombre','descripcion','imagen']     
+
+

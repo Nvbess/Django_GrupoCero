@@ -132,6 +132,19 @@ def adminupd(request, username):
 def colabgc(request):
     return render(request, 'core/colab/colabgc.html')
 
+def colabautor(request):
+    if request.method == 'POST':
+        formulario = ArtistaCreationForm(request.POST, request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Artista agregado exitosamente!")
+        else:
+            aux = {'form':formulario}
+            messages.error(request, "No se pudo agregar el artista!")
+
+    aux = {'form' : ArtistaCreationForm()}
+    return render(request, 'core/colab/colab-autor.html', aux)
+
 def colabadd(request):
     if request.method == 'POST':
         formulario = ArteCreationForm(request.POST, request.FILES)
