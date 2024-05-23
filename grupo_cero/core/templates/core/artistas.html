@@ -4,29 +4,19 @@
 <!-- Start Content -->
 <div class="container py-5" style="margin-top: 4%;">
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
                         <li class="list-inline-item">
                             <a class="h3 text-dark text-decoration-none mr-3" href="#">Artistas</a>
                         </li>
-
                     </ul>
                 </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Recomendados</option>
-                            <option>Pintores recomendados</option>
-                            <option>Escultores recomendados </option>
-                        </select>
-                    </div>
-                </div>
             </div>
-            {% for x in autor %}
             <div class="row">
-                <div class="col-md-4">
+                {% for x in autor %}
+                <div class="col-3">
                     <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
                         <div class="card rounded-0">
                             <a href="{% url 'artista_detalle' x.id %}">
@@ -35,21 +25,27 @@
                             <div
                                 class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
-                                    <li><a class="btn btn-dark text-white mt-2" href="{% url 'artista_detalle' x.id %}"><i
-                                                class="far fa-eye"></i></a></li>
+                                    <li>
+                                        <a class="btn btn-dark text-white mt-2" href="{% url 'artista_detalle' x.id %}"><i class="far fa-eye"></i></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ x.nombre }}</h5>
+                            {% if x.nombre|length < 24 %}
+                            <a href="{% url 'artista_detalle' x.id %}" style="text-decoration: none;">
+                            <h5 class="card-title">{{ x.nombre }}</h5></a> 
+                            {% else %}
+                            <h5 class="card-title">{{ x.nombre|truncatechars:24 }}</h5>
+                            {% endif %}
                             <a href="{% url 'artista_detalle' x.id %}" style="text-decoration: none; color: #222;">
-                                <p class="card-text mb-2">Pintora Chilena</p>
+                                <p class="card-text mb-2">Artista</p>
                             </a>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>

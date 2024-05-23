@@ -7,7 +7,7 @@
     <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
                                 <a class="h3 text-dark text-decoration-none mr-3" href="#">Colecciones</a>
@@ -15,7 +15,7 @@
                             
                         </ul>
                     </div>
-                    <div class="col-md-6 pb-4">
+                    <div class="col-md-4 pb-4">
                         <div class="d-flex">
                             <select class="form-control">
                                 <option>Recomendados</option>
@@ -48,7 +48,7 @@
                                 {% else %}
                                 <h5 class="card-title">{{ s.titulo|truncatechars:24 }}</h5>
                                 {% endif %}
-                                <a href="#" style="text-decoration: none; color: #222;"><p class="card-text mb-2">{{ s.autor }}</p></a>
+                                <a href="{% url 'artista_detalle' s.autor.id %}" style="text-decoration: none; color: #222;"><p class="card-text mb-2">{{ s.autor }}</p></a>
                                 <p class="card-text">${{ s.valor|floatformat:"0g" }}</p>
                             </div>
                         </div>

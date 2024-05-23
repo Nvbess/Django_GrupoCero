@@ -6,23 +6,6 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.categoria
-
-class Arte(models.Model):
-    titulo = models.CharField(max_length=150)
-    autor = models.CharField(max_length=150)
-    descripcion = models.TextField()
-    valor = models.IntegerField(default=0)
-    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
-    habilitado = models.BooleanField(default=False)
-    mensaje = models.CharField(max_length=150, default='')
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-
-    def delete(self):
-        self.imagen.delete()
-        super().delete()
-
-    def __str__(self):
-        return self.titulo
     
 class Autor(models.Model):
     nombre = models.CharField(max_length=150)
@@ -36,3 +19,22 @@ class Autor(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Arte(models.Model):
+    titulo = models.CharField(max_length=150)
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
+    descripcion = models.TextField()
+    valor = models.IntegerField(default=0)
+    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
+    habilitado = models.BooleanField(default=False)
+    mensaje = models.CharField(max_length=150)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+    def delete(self):
+        self.imagen.delete()
+        super().delete()
+
+    def __str__(self):
+        return self.titulo
+    
+
