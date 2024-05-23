@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'core/assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'core/assets/css/templatemo.css' %}">
     <link rel="stylesheet" href="{% static 'core/assets/css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assets/css/art-col.css' %}">
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -167,19 +168,19 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Artistas</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Roberto Matta</a></li>
-                        <li><a class="text-decoration-none" href="#">Gracia Barrios</a></li>
-                        <li><a class="text-decoration-none" href="#">Claude Monett</a></li>
-                        <li><a class="text-decoration-none" href="#">Joan Miro</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 1 %}">Roberto Matta</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 2 %}">Gracia Barrios</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 4 %}">Pablo Picasso</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 3 %}">Joan Miro</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Información</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">Artistas</a></li>
-                        <li><a class="text-decoration-none" href="#">Colecciones</a></li>
-                        <li><a class="text-decoration-none" href="#">Contacto</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'index' %}">Home</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artistas' %}">Artistas</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'colecciones' %}">Colecciones</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'contacto' %}">Contacto</a></li>
                         <li><a class="text-decoration-none" href="#">Carrito</a></li>
                     </ul>
                 </div>

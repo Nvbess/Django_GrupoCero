@@ -17,7 +17,7 @@
             <div class="row">
                 {% for x in autor %}
                 <div class="col-3">
-                    <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
+                    <div class="card mb-4 product-wap rounded-0 artista-card">
                         <div class="card rounded-0">
                             <a href="{% url 'artista_detalle' x.id %}">
                                 <img class="card-img" src="{{ x.imagen.url }}">
@@ -26,21 +26,22 @@
                                 class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a class="btn btn-dark text-white mt-2" href="{% url 'artista_detalle' x.id %}"><i class="far fa-eye"></i></a>
+                                        <a class="btn btn-dark text-white mt-2"
+                                            href="{% url 'artista_detalle' x.id %}"><i class="far fa-eye"></i></a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            {% if x.nombre|length < 24 %}
-                            <a href="{% url 'artista_detalle' x.id %}" style="text-decoration: none;">
-                            <h5 class="card-title">{{ x.nombre }}</h5></a> 
-                            {% else %}
-                            <h5 class="card-title">{{ x.nombre|truncatechars:24 }}</h5>
-                            {% endif %}
-                            <a href="{% url 'artista_detalle' x.id %}" style="text-decoration: none; color: #222;">
-                                <p class="card-text mb-2">Artista</p>
-                            </a>
+                            {% if x.nombre|length < 24 %} <a href="{% url 'artista_detalle' x.id %}"
+                                style="text-decoration: none;">
+                                <h5 class="card-title">{{ x.nombre }}</h5></a>
+                                {% else %}
+                                <h5 class="card-title">{{ x.nombre|truncatechars:24 }}</h5>
+                                {% endif %}
+                                <a href="{% url 'artista_detalle' x.id %}" style="text-decoration: none; color: #222;">
+                                    <p class="card-text mb-2">Artista</p>
+                                </a>
                         </div>
                     </div>
                 </div>

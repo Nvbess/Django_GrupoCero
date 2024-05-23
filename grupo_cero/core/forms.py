@@ -30,7 +30,7 @@ class ColabCreationForm(UserCreationForm):
 class ArteCreationForm(forms.ModelForm):
     class Meta:
         model = Arte
-        fields = ['titulo','autor','descripcion','valor','imagen','categoria']
+        fields = ['titulo','autor','descripcion','valor','imagen','categoria','mensaje']
 
 class ArtistaCreationForm(forms.ModelForm):
     class Meta:

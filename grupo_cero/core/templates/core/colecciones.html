@@ -30,9 +30,9 @@
             {% for s in obras %}
                 {% if s.habilitado == True %}
                     <div class="col-3">
-                        <div class="card mb-4 product-wap rounded-0" style="width: fit-content">
+                        <div class="card mb-4 product-wap rounded-0 obra-card">
                             <div class="card rounded-0">
-                                <a href="#">
+                                <a href="{% url 'coleccion_detalle' s.id %}">
                                     <img class="card-img" src="{{ s.imagen.url }}">
                                 </a>
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
@@ -44,9 +44,13 @@
                             </div>
                             <div class="card-body">
                                 {% if s.titulo|length < 24 %}
+                                <a href="{% url 'coleccion_detalle' s.id %}" style="text-decoration: none;">
                                 <h5 class="card-title">{{ s.titulo }}</h5>
+                                </a>
                                 {% else %}
+                                <a href="{% url 'coleccion_detalle' s.id %}" style="text-decoration: none;">
                                 <h5 class="card-title">{{ s.titulo|truncatechars:24 }}</h5>
+                                </a>
                                 {% endif %}
                                 <a href="{% url 'artista_detalle' s.autor.id %}" style="text-decoration: none; color: #222;"><p class="card-text mb-2">{{ s.autor }}</p></a>
                                 <p class="card-text">${{ s.valor|floatformat:"0g" }}</p>

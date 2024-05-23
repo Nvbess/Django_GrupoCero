@@ -24,8 +24,18 @@
                         <td>{{ s.titulo }}</td>
                         <td>{{ s.autor }}</td>
                         <td>{{ s.categoria }}</td>
-                        <td>{{ s.habilitado }}</td>
-                        <td>${{ s.valor }}</td>
+                        <td>
+                        {% if s.habilitado == True %}
+                        <h6>Aprobado</h6>
+                        {% else %}
+                            {% if s.mensaje %}
+                            <h6 class="font-weight-bold" style="color: red;">**<a class="btn btn-outline-dark" style="margin-left: 3px;" href="{% url 'colabupd' s.id %}">Modificar</a></h6>
+                            {% else %}
+                            <h6>En progreso.</h6>
+                            {% endif %}
+                        {% endif %}
+                        </td>
+                        <td>${{ s.valor|floatformat:"0g" }}</td>
                     </tr>
                 
                     {% endfor %}

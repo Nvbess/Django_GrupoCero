@@ -133,6 +133,33 @@ def adminupd(request, username):
             
     return render(request, 'core/admin/admin-upd.html', {'form': formulario})
 
+@login_required
+@permission_required('is_staff')
+def adminsolicitud(request):
+    publicaciones = Arte.objects.all()
+
+    aux = {'obras': publicaciones}
+
+    return render(request, 'core/admin/admin-solic.html',aux)
+
+def aceptar_obra(request, id):
+    obra = get_object_or_404(Arte, id=id)
+    obra.habilitado = True
+    obra.save()
+    return render(request, 'core/admin/admin-solic.html')
+
+def rechazar_obra(request,id):
+    obra = get_object_or_404(Arte, id=id)
+    if request.method == 'POST':
+        mensaje = request.POST.get('mensaje')
+        obra.habilitado = False
+        obra.mensaje = mensaje
+        obra.save()
+        return redirect('adminsolicitud')
+    return render(request, 'core/admin/rechazar-obra.html', {'obra': obra})
+
+
+
 ##########################################################
 ##############      COLABORADOR VIEWS       ##############
 ##########################################################
@@ -174,8 +201,21 @@ def colabadd(request):
 
 @login_required
 @user_passes_test(lambda u: in_group(u, 'Colaborador'))
-def colabupd(request):
-    return render(request, 'core/colab/colab-upd.html')
+def colabupd(request, id):
+    u = get_object_or_404(Arte, id=id)
+    if request.method == 'POST':
+        formulario = ArteCreationForm(data=request.POST, instance=u)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Obra Actualizada!")
+            return redirect('colablist')
+        else:
+            messages.error(request, "No se pudo actualizar!")
+    else:
+        formulario = ArteCreationForm(instance=u)
+            
+            
+    return render(request, 'core/colab/colab-upd.html', {'form': formulario})
 
 @login_required
 @user_passes_test(lambda u: in_group(u, 'Colaborador'))
