@@ -1,0 +1,46 @@
+{% extends 'core/admin/admingc.html' %}
+{% load static %}
+{% block contenido_adm %}
+<br><br>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h2>Listado Solicitudes</h2>
+                <hr>
+                <table class="table table-striped table-hover table-responsive-sm">
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                
+                    {% for s in obras %}
+                    {% if s.habilitado == False %}
+                    <tr>
+                        <td>{{ s.titulo }}</td>
+                        <td>{{ s.autor }}</td>
+                        <td>{{ s.categoria }}</td>
+                        <td>${{ s.valor }}</td>
+                        <td>
+                            <form action="{% url 'aceptar_obra' s.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        </form>
+                        </td>
+                        <td>
+                            <a href="{% url 'rechazar_obra' s.id %}" class="btn btn-danger">Rechazar</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
