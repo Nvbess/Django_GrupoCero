@@ -148,6 +148,7 @@ def aceptar_obra(request, id):
     obra = get_object_or_404(Arte, id=id)
     obra.habilitado = True
     obra.save()
+    messages.success(request, 'Obra publicada en la página!')
     return render(request, 'core/admin/admin-solic.html')
 
 @login_required
@@ -159,6 +160,7 @@ def rechazar_obra(request,id):
         obra.habilitado = False
         obra.mensaje = mensaje
         obra.save()
+        messages.warning(request, 'Mensaje enviado al colaborador!')
         return redirect('adminsolicitud')
     return render(request, 'core/admin/rechazar-obra.html', {'obra': obra})
 

@@ -4,9 +4,15 @@
 <div style="margin-top: 6%;">
     <div class="card-obra mb-3">
         <div class="row g-0 ">
-            <div class="col-md-6">
+            {% if obra.imagen %}
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <img src="{{ obra.imagen.url }}" class="img-fluid rounded-start">
             </div>
+            {% else %}
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <h5>No se subio una imagen</h5>
+            </div>
+            {% endif %}
             <div class="col-md-6">
                 <div class="card-body">
                     <div class="container">
@@ -45,7 +51,7 @@
                                             </div>
                                             <button type="submit" class="btn btn-dark mt-3">Guardar</button>
                                             <a href="{% url 'adminsolicitud' %}"
-                                                class="btn btn-secondary mt-3">Cancelar</a>
+                                                class="btn btn-danger mt-3">Cancelar</a>
                                         </form>
                                     </div>
                                 </div>

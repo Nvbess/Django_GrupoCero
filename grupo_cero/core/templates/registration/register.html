@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block contenido_registration %}
-                  <form method="POST" onsubmit="Mensaje()">
+                  <form method="POST">
                     <h2 class="mb-5 mt-5">Registro</h2>
                     {% csrf_token %} <!-- Token de Seguridad -->
                     <div class="form-row">
