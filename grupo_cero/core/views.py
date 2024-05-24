@@ -142,12 +142,16 @@ def adminsolicitud(request):
 
     return render(request, 'core/admin/admin-solic.html',aux)
 
+@login_required
+@permission_required('is_staff')
 def aceptar_obra(request, id):
     obra = get_object_or_404(Arte, id=id)
     obra.habilitado = True
     obra.save()
     return render(request, 'core/admin/admin-solic.html')
 
+@login_required
+@permission_required('is_staff')
 def rechazar_obra(request,id):
     obra = get_object_or_404(Arte, id=id)
     if request.method == 'POST':
@@ -240,6 +244,32 @@ class AutorViewset(viewsets.ModelViewSet):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
     renderer_classes = [JSONRenderer]
+
+##########################################################
+##############      USER VIEWS       ####################
+##########################################################
+
+def configuracion(request, id):
+    usuario = get_object_or_404(User, id=id)
+    return render(request, 'core/user/user-config.html', {'usuario': usuario})
+
+def userupd(request, id):
+    usuario = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST, instance=usuario)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
+            login(request, user)
+            messages.success(request, "Datos Actualizados!")
+            return redirect('index')
+        else:
+            messages.error(request, "No se pudo actualizar!")
+    else:
+        formulario = CustomUserCreationForm(instance=usuario)
+            
+            
+    return render(request, 'core/user/user-upd.html', {'form': formulario})
 
 # CONSUMO DE API
 def ArteAPI(request):

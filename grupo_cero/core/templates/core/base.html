@@ -91,7 +91,7 @@
                         <i class="fa fa-fw fa-user text-dark mr-3"></i><b> {{user.username}} </b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#">Configuración</a>
+                            <a class="dropdown-item" href="{% url 'configuracion' user.id %}">Configuración</a>
                         </li>
                         <li>
                             <form action="{% url 'logout' %}" method="POST">{% csrf_token %}

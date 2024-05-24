@@ -31,6 +31,8 @@ urlpatterns = [
         path('colabupd/<int:id>',colabupd,name="colabupd"),
         path('colablist/',colablist,name="colablist"),
         path('colabautor/',colabautor,name="colabautor"),
+        path('configuracion/<int:id>/',configuracion,name="configuracion"),
+        path('userupd/<int:id>/',userupd,name="userupd"),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),

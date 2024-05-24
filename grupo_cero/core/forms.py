@@ -11,6 +11,12 @@ class CustomUserCreationForm(UserCreationForm):
         help_texts = {
             'username': None
         }
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Este usuario ya existe!")
+        return username
 
 class ColabCreationForm(UserCreationForm):
     class Meta:
