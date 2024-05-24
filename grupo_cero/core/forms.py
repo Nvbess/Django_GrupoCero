@@ -38,6 +38,8 @@ class ArteCreationForm(forms.ModelForm):
         model = Arte
         fields = ['titulo','autor','descripcion','valor','imagen','categoria','mensaje']
 
+    mensaje = forms.CharField(required=False, widget=forms.HiddenInput())
+
 class ArtistaCreationForm(forms.ModelForm):
     class Meta:
         model =  Autor

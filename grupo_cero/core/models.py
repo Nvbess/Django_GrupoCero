@@ -27,7 +27,7 @@ class Arte(models.Model):
     valor = models.IntegerField(default=0)
     imagen = models.ImageField(upload_to='images/', null=True, blank=True)
     habilitado = models.BooleanField(default=False)
-    mensaje = models.CharField(max_length=150)
+    mensaje = models.CharField(max_length=150, default='')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
     def delete(self):

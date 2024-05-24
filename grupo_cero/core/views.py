@@ -192,7 +192,7 @@ def colabautor(request):
 @user_passes_test(lambda u: in_group(u, 'Colaborador'))
 def colabadd(request):
     if request.method == 'POST':
-        formulario = ArteCreationForm(request.POST, request.FILES)
+        formulario = ArteCreationForm(request.POST, request.FILES, initial={'mensaje': ''})
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Obra agregada exitosamente!")
