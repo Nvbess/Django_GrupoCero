@@ -64,6 +64,9 @@ def artista_detalle(request, id):
     autor = get_object_or_404(Autor, id=id)
     return render(request, 'core/artista-detalle.html', {'autor': autor})
 
+def cart(request):
+    return render(request, 'core/cart.html')
+
 ##########################################################
 ##############      ADMIN VIEWS       ####################
 ##########################################################
