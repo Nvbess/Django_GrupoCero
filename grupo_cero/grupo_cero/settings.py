@@ -157,7 +157,8 @@ LOGOUT_REDIRECT_URL = '/'
 
 #CONFIGURACION PARA LAS IMAGENES
 MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/' 
+
 
 
 

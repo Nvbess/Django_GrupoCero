@@ -147,6 +147,18 @@ def adminsolicitud(request):
 
 @login_required
 @permission_required('is_staff')
+def revision(request, id):
+    obra = get_object_or_404(Arte, id=id)
+    if request.method == 'POST':
+        if 'aceptar' in request.POST:
+            return redirect('aceptar_obra', id=obra.id)
+        elif 'rechazar' in request.POST:
+            return redirect('rechazar_obra', id=obra.id)
+
+    return render(request, 'core/admin/revision.html', {'obra': obra})
+
+@login_required
+@permission_required('is_staff')
 def aceptar_obra(request, id):
     obra = get_object_or_404(Arte, id=id)
     obra.habilitado = True
@@ -200,10 +212,10 @@ def colabadd(request):
         formulario = ArteCreationForm(request.POST, request.FILES, initial={'mensaje': ''})
         if formulario.is_valid():
             formulario.save()
-            messages.success(request, "Obra agregada exitosamente!")
+            messages.success(request, "Solicitud creada correctamente!")
         else:
             aux = {'form':formulario}
-            messages.error(request, "No se pudo agregar la obra!")
+            messages.error(request, "No se pudo generar la solicitud!")
 
     aux = {'form' : ArteCreationForm()}
     return render(request, 'core/colab/colab-add.html', aux)
@@ -248,7 +260,7 @@ class ArteViewset(viewsets.ModelViewSet):
 class AutorViewset(viewsets.ModelViewSet):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
-    renderer_classes = [JSONRenderer]
+    renderer_classes = [JSONRenderer] 
 
 ##########################################################
 ##############      USER VIEWS       ####################
@@ -266,7 +278,7 @@ def userupd(request, id):
             formulario.save()
             user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
             login(request, user)
-            messages.success(request, "Datos Actualizados!")
+            messages.success(request, "Datos Actualizados Correctamente!")
             return redirect('index')
         else:
             messages.error(request, "No se pudo actualizar!")

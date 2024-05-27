@@ -26,13 +26,8 @@
                         <td>{{ s.categoria }}</td>
                         <td>${{ s.valor }}</td>
                         <td>
-                            <form action="{% url 'aceptar_obra' s.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success">Aceptar</button>
-                        </form>
-                        </td>
                         <td>
-                            <a href="{% url 'rechazar_obra' s.id %}" class="btn btn-danger">Rechazar</a>
+                            <a href="{% url 'revision' s.id %}" class="btn btn-dark">Revisar Solicitud</a>
                         </td>
                     </tr>
                     {% endif %}

@@ -34,6 +34,7 @@ urlpatterns = [
         path('configuracion/<int:id>/',configuracion,name="configuracion"),
         path('userupd/<int:id>/',userupd,name="userupd"),
         path('cart/', cart, name="cart"),
+        path('revision/<int:id>/', revision, name="revision"),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),
