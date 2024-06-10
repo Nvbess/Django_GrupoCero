@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
+from django_recaptcha.fields import ReCaptchaField
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -34,6 +36,7 @@ class ColabCreationForm(UserCreationForm):
         return username
 
 class ArteCreationForm(forms.ModelForm):
+    captcha = ReCaptchaField()
     class Meta:
         model = Arte
         fields = ['titulo','autor','descripcion','valor','imagen','categoria','mensaje']
@@ -41,6 +44,7 @@ class ArteCreationForm(forms.ModelForm):
     mensaje = forms.CharField(required=False, widget=forms.HiddenInput())
 
 class ArtistaCreationForm(forms.ModelForm):
+    captcha = ReCaptchaField()
     class Meta:
         model =  Autor
         fields = ['nombre','descripcion','imagen']     

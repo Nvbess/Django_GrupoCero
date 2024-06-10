@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
+    'admin_confirm',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,8 +45,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'rest_framework',
+    'axes',
+    'captcha',
+    'django_recaptcha',
 ]
 
+# KEYS DEL RECAPTCHA
+RECAPTCHA_PUBLIC_KEY = '6LezsvUpAAAAAE65YuqsMpbqa3CY1SpLZCaLUko3'
+RECAPTCHA_PRIVATE_KEY = '6LezsvUpAAAAANtRZBx5pB2wCefVhIRtmg5HCJpG'
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
@@ -56,7 +64,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware'
 ]
+
+# CONFIGURACION AXES
+AXES_FAILURE_LIMIT = 3                      #Numero de intentos fallidos.
+AXES_COOLOFF_TIME = timedelta(minutes=1)    #Tiempo de espera antes de permitir otro intento.
+AXES_LOCKOUT_URL = '/account_locked/'                       #Ruta URL a la que se redirigue cuando la cuenta se bloquea.
+AXES_RESET_ON_SUCCESS = True                #Reestablecemos el contador de intentos fallidos, cuando se logea correctamente.
+
 
 ROOT_URLCONF = 'grupo_cero.urls'
 
@@ -120,6 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
+    'axes.backends.AxesStandaloneBackend',
     'core.backends.CaseInsensitiveModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )

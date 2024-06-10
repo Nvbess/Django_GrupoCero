@@ -67,6 +67,9 @@ def artista_detalle(request, id):
 def cart(request):
     return render(request, 'core/cart.html')
 
+def account_locked(request):
+    return render(request, 'core/account_locked.html')
+
 ##########################################################
 ##############      ADMIN VIEWS       ####################
 ##########################################################
