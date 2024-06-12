@@ -70,7 +70,7 @@ MIDDLEWARE = [
 # CONFIGURACION AXES
 AXES_FAILURE_LIMIT = 3                      #Numero de intentos fallidos.
 AXES_COOLOFF_TIME = timedelta(minutes=1)    #Tiempo de espera antes de permitir otro intento.
-AXES_LOCKOUT_URL = '/account_locked/'                       #Ruta URL a la que se redirigue cuando la cuenta se bloquea.
+AXES_LOCKOUT_URL = '/account_locked/'       #Ruta URL a la que se redirigue cuando la cuenta se bloquea.
 AXES_RESET_ON_SUCCESS = True                #Reestablecemos el contador de intentos fallidos, cuando se logea correctamente.
 
 
