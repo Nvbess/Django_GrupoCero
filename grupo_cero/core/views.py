@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group,User
 from rest_framework import viewsets
 from .serializers import *
 from rest_framework.renderers import JSONRenderer
+from django.core.paginator import Paginator
 import requests
 
 def in_group(user, group_name):
@@ -46,7 +47,14 @@ def contacto(request):
 
 def colecciones(request):
     publicaciones = Arte.objects.all()
-    aux = {'obras': publicaciones}
+    paginator = Paginator(publicaciones, 8) # Muestra 10 obras por pagina
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    aux = {
+        'page_obj' : page_obj
+    }
+
     return render(request, 'core/colecciones.html', aux)
 
 def coleccion_detalle(request, id):
@@ -201,6 +209,7 @@ def colabautor(request):
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Artista agregado exitosamente!")
+            return render(request, 'core/colab/colabgc.html')
         else:
             aux = {'form':formulario}
             messages.error(request, "No se pudo agregar el artista!")
@@ -216,6 +225,7 @@ def colabadd(request):
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Solicitud creada correctamente!")
+            return render(request, 'core/colab/colabgc.html')
         else:
             aux = {'form':formulario}
             messages.error(request, "No se pudo generar la solicitud!")

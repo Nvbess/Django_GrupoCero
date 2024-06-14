@@ -47,6 +47,6 @@ class ArtistaCreationForm(forms.ModelForm):
     captcha = ReCaptchaField()
     class Meta:
         model =  Autor
-        fields = ['nombre','descripcion','imagen']     
+        fields = ['nombre','descripcion','imagen']
 
 
