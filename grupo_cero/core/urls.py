@@ -9,7 +9,6 @@ router = routers.DefaultRouter()
 router.register('Arte', ArteViewset)
 router.register('Autor', AutorViewset)
 
-
 urlpatterns = [
     	path('',index,name="index"),
         path('contacto/',contacto,name="contacto"),
@@ -36,6 +35,9 @@ urlpatterns = [
         path('cart/', cart, name="cart"),
         path('revision/<int:id>/', revision, name="revision"),
         path('account_locked/', account_locked, name="account_locked"),
+        path('add_cart/<int:id>/', add_cart, name="add_cart"),
+        path('del_cart/<int:id>/', del_cart, name="del_cart"),
+        path('upd_cart/<int:id>/', upd_cart, name="upd_cart"),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),

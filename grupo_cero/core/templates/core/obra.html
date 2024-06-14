@@ -14,7 +14,11 @@
                         <p class="card-text-small-obra"><small class="text-body-secondary">{{ obra.autor }}</small></p>
                     </a>
                     <p class="card-text">{{ obra.descripcion|linebreaks }}</p>
-                    <h4 style="text-align: right;">${{ obra.valor|floatformat:"0g" }} <a href="#" class="btn btn-dark" >Añadir al carrito</a></h4>
+                    <h4 style="text-align: right;">${{ obra.valor|floatformat:"0g" }} 
+                        <form action="{% url 'add_cart' obra.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-dark">Agregar al carrito</button>
+                        </form>
                     <h4 style="text-align: right;">${{ obra.valor|floatformat:"0g" }} <div style="justify-content: center;" class="text-center" id="paypal-button"></div></h4>
                 </div>
             </div>

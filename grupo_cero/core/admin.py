@@ -17,3 +17,5 @@ class AutorAdmin(AdminConfirmMixin, ModelAdmin):
 admin.site.register(Categoria)
 admin.site.register(Arte, ArteAdmin)
 admin.site.register(Autor, AutorAdmin)
+admin.site.register(Carrito)
+admin.site.register(ItemCarrito)

@@ -73,8 +73,60 @@ def artista_detalle(request, id):
     return render(request, 'core/artista-detalle.html', {'autor': autor})
 
 def cart(request):
-    return render(request, 'core/cart.html')
+    cart = ItemCarrito.objects.all()
+    return render(request, 'core/cart.html', {'cart': cart})
 
+@login_required
+def add_cart(request, id):
+    arte = get_object_or_404(Arte, id=id)
+    usuario = request.user
+
+    # Obtener o crear el carrito del usuario
+    carrito, creado = Carrito.objects.get_or_create(usuario=usuario)
+
+    # Verificar si el artículo ya está en el carrito del usuario
+    if ItemCarrito.objects.filter(carrito=carrito, obra=arte).exists():
+        # Si ya existe, aumentamos la cantidad en 1
+        item_en_carrito = ItemCarrito.objects.get(carrito=carrito, obra=arte)
+        item_en_carrito.cantidad += 1
+        item_en_carrito.save()
+        messages.success(request, f"{arte.titulo} se ha agregado al carrito.") 
+    else:
+        # Si no existe, creamos un nuevo ítem en el carrito
+        nuevo_item = ItemCarrito(carrito=carrito, obra=arte)
+        nuevo_item.save()
+        messages.success(request, f"{arte.titulo} se ha agregado al carrito.")
+    
+    return redirect('colecciones')
+
+@login_required
+def del_cart(request, id):
+    item = get_object_or_404(ItemCarrito, id=id)
+    arte = item.obra
+
+    # Verificar si el ítem pertenece al carrito del usuario
+    if item.carrito.usuario == request.user:
+        item.delete()
+        messages.success(request, f"{arte.titulo} se ha eliminado del carrito.")
+    else:
+        messages.error(request, "No tienes permisos para eliminar este ítem del carrito.")
+
+    return redirect('cart')
+
+@login_required
+def upd_cart(request, id):
+    item = get_object_or_404(ItemCarrito, id=id)
+    nueva_cantidad = int(request.POST.get('cantidad'))
+
+    if nueva_cantidad > 0:
+        item.cantidad = nueva_cantidad
+        item.save()
+        messages.success(request, f"La cantidad de {item.obra.titulo} en tu carrito se ha actualizado.")
+    else:
+        messages.error(request, "La cantidad debe ser mayor que cero para actualizar el carrito.")
+
+    return redirect('cart')
+    
 def account_locked(request):
     return render(request, 'core/account_locked.html')
 
