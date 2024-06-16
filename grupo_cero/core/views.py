@@ -10,6 +10,9 @@ from .serializers import *
 from rest_framework.renderers import JSONRenderer
 from django.core.paginator import Paginator
 import requests
+from django.conf import settings
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
 
 def in_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
@@ -73,28 +76,46 @@ def artista_detalle(request, id):
     return render(request, 'core/artista-detalle.html', {'autor': autor})
 
 def cart(request):
-    cart = ItemCarrito.objects.all()
-    return render(request, 'core/cart.html', {'cart': cart})
+    cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
+
+    cart = cart_usuario.items.all()
+    # Calcular la cantidad total de items en el carrito
+    total_cantidad = sum(item.cantidad for item in cart)
+
+    # Calcular el subtotal sumando los subtotales de todos los items
+    subtotal = sum(item.subtotal() for item in cart)
+    
+    # Aquí asumimos que el envío es una cantidad fija, $0 en este caso
+    envio = 20
+    
+    # Total final
+    total = subtotal + envio
+
+    aux = {
+        'cart': cart,
+        'total_cantidad': total_cantidad,
+        'subtotal': subtotal,
+        'envio': envio,
+        'total': total
+    }
+
+    return render(request, 'core/cart.html', aux)
 
 @login_required
 def add_cart(request, id):
     arte = get_object_or_404(Arte, id=id)
     usuario = request.user
 
-    # Obtener o crear el carrito del usuario
     carrito, creado = Carrito.objects.get_or_create(usuario=usuario)
 
-    # Verificar si el artículo ya está en el carrito del usuario
     if ItemCarrito.objects.filter(carrito=carrito, obra=arte).exists():
-        # Si ya existe, aumentamos la cantidad en 1
-        item_en_carrito = ItemCarrito.objects.get(carrito=carrito, obra=arte)
-        item_en_carrito.cantidad += 1
-        item_en_carrito.save()
+        itemCarrito = ItemCarrito.objects.get(carrito=carrito, obra=arte)
+        itemCarrito.cantidad += 1
+        itemCarrito.save()
         messages.success(request, f"{arte.titulo} se ha agregado al carrito.") 
     else:
-        # Si no existe, creamos un nuevo ítem en el carrito
-        nuevo_item = ItemCarrito(carrito=carrito, obra=arte)
-        nuevo_item.save()
+        itemNuevo = ItemCarrito(carrito=carrito, obra=arte)
+        itemNuevo.save()
         messages.success(request, f"{arte.titulo} se ha agregado al carrito.")
     
     return redirect('colecciones')
@@ -104,29 +125,78 @@ def del_cart(request, id):
     item = get_object_or_404(ItemCarrito, id=id)
     arte = item.obra
 
-    # Verificar si el ítem pertenece al carrito del usuario
     if item.carrito.usuario == request.user:
-        item.delete()
-        messages.success(request, f"{arte.titulo} se ha eliminado del carrito.")
+        if item.cantidad > 1:
+            item.cantidad -= 1
+            item.save()
+            messages.success(request, f"Se elimino la cantidad de {arte.titulo} en el carrito.")
+        else:
+            item.delete()
+            messages.success(request, f"{arte.titulo} se ha eliminado del carrito.")
     else:
-        messages.error(request, "No tienes permisos para eliminar este ítem del carrito.")
+        messages.error(request, "No tienes permisos para modificar este ítem del carrito.")
 
     return redirect('cart')
+
 
 @login_required
-def upd_cart(request, id):
-    item = get_object_or_404(ItemCarrito, id=id)
-    nueva_cantidad = int(request.POST.get('cantidad'))
+def checkout(request):
 
-    if nueva_cantidad > 0:
-        item.cantidad = nueva_cantidad
-        item.save()
-        messages.success(request, f"La cantidad de {item.obra.titulo} en tu carrito se ha actualizado.")
+    # NO FUNCIONA NADA DE ESTO!
+
+    cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
+
+    cart = cart_usuario.items.all()
+
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            pedido = form.save(commit=False)
+            pedido.usuario = request.user
+            pedido.save()
+
+            # Procesamiento de pago con PayPal
+            paypal_dict = {
+                'business': settings.PAYPAL_RECEIVER_EMAIL,
+                'amount': str(pedido.total),
+                'item_name': 'Descripción del pedido',
+                'invoice': str(pedido.id),
+                'currency_code': 'USD',
+                'notify_url': request.build_absolute_uri(reverse('paypal-ipn')),
+                'return_url': request.build_absolute_uri(reverse('confirmacion_pago')),
+                'cancel_return': request.build_absolute_uri(reverse('cancelacion_pago')),
+            }
+
+            form = PayPalPaymentsForm(initial=paypal_dict)
+            aux = {
+                'cart': cart,
+                'pedido': pedido,
+                'form': form,
+            }
+            return render(request, 'core/checkout.html', aux)
     else:
-        messages.error(request, "La cantidad debe ser mayor que cero para actualizar el carrito.")
+        form = PedidoForm()
 
-    return redirect('cart')
-    
+    return render(request, 'core/payment/checkout.html', {'form': form, 'cart': cart})
+
+@login_required
+def confirmacion_pago(request):
+
+    # NO FUNCIONA NADA DE ESTO!
+
+    # Esta vista se llamará cuando PayPal confirme el pago
+    # Aquí puedes actualizar el estado del pedido, enviar correos electrónicos, etc.
+    pedido_id = request.GET.get('invoice')
+    pedido = Pedido.objects.get(id=pedido_id)
+    pedido.paypal_status = 'COMPLETED'
+    pedido.save()
+    return render(request, 'core/payment/confirmacion_pago.html', {'pedido': pedido})
+
+@login_required
+def cancelacion_pago(request):
+    # NO FUNCIONA NADA DE ESTO!
+    return render(request, 'core/payment/cancelacion_pago.html')
+
 def account_locked(request):
     return render(request, 'core/account_locked.html')
 

@@ -49,4 +49,11 @@ class ArtistaCreationForm(forms.ModelForm):
         model =  Autor
         fields = ['nombre','descripcion','imagen']
 
+class PedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ['nombre', 'apellido', 'rut', 'telefono', 'direccion', 'ciudad']
+
+        
+
 

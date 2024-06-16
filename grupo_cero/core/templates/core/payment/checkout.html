@@ -2,6 +2,7 @@
 {% load static %}
 {% block contenido %}
 
+{% load crispy_forms_tags %}
 <section class="h-100 h-custom" style="background-color: #eee; margin-top: 4%;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -19,28 +20,11 @@
                                 {% for x in cart %}
                                 <div class="card mb-3">
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img src="{{ x.obra.imagen.url }}" class="img-fluid rounded-3"
-                                                        alt="Shopping item" style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>{{ x.obra.titulo }}</h5>
-                                                    <p class="small mb-0">{{ x.obra.autor }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">{{ x.cantidad }}</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$ {{ x.obra.valor }}</h5>
-                                                </div>
-                                                <a href="{% url 'del_cart' x.id %}" style="color: #cecece;"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </div>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            {{ form|as_crispy_forms }}
+                                            <button type="submit" class="btn btn-primary">Pagar</button>
+                                        </form>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -71,14 +55,12 @@
                                             <p class="mb-1">$ {{ total }}</p>
                                         </div>
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block btn-lg">
-                                            <div class="d-flex justify-content-between"><span><b>Checkout</b> <i class="fas fa-long-arrow-alt-right ms-2"></i> </span></a></div>
+                                            <div class="d-flex justify-content-between"><span><b>Checkout</b> <i class="fas fa-long-arrow-alt-right ms-2"></i> </span></div>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {% else %}
-                        <h1> Debe iniciar sesión para utilizar el carrito.</h1>
                         {% endif %}
                     </div>
                 </div>
@@ -86,5 +68,40 @@
         </div>
     </div>
 </section>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+        // Configure environment
+        env: 'sandbox', // Cambiar a 'production' en producción
+        client: {
+            sandbox: 'AWvy2NBr7b0Q3KAfvop1kPOiPGsOhYVLLMiQbNJHfoKMHXLI7T_VlVkgn4mAz7UpIcLJjXTWWj_GtoVB',
+            production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'en_US',
+        style: {
+            size: 'medium',
+            color: 'black',
+            shape: 'rect',
+        },
+        commit: true,
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: '{{ x.total }}',
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                window.location.href = "{% url 'confirmacion_pago' %}?invoice={{ pedido.id }}";
+            });
+        }
+    }, '#paypal-button');
+</script>
 
 {% endblock %}

@@ -37,7 +37,10 @@ urlpatterns = [
         path('account_locked/', account_locked, name="account_locked"),
         path('add_cart/<int:id>/', add_cart, name="add_cart"),
         path('del_cart/<int:id>/', del_cart, name="del_cart"),
-        path('upd_cart/<int:id>/', upd_cart, name="upd_cart"),
+        # NO FUNCIONA NADA DE ESTO HACIA ABAJO
+        path('checkout/<int:id>', checkout, name="checkout"),
+        path('checkout/confirmacion', confirmacion_pago, name="confirmacion_pago"),
+        path('checkout/cancelacion', cancelacion_pago, name="cancelacion_pago"),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),
