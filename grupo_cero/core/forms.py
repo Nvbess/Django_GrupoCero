@@ -7,6 +7,7 @@ from captcha.fields import CaptchaField
 from django_recaptcha.fields import ReCaptchaField
 
 class CustomUserCreationForm(UserCreationForm):
+    captcha = ReCaptchaField()
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name','email', 'password1', 'password2']
@@ -48,11 +49,6 @@ class ArtistaCreationForm(forms.ModelForm):
     class Meta:
         model =  Autor
         fields = ['nombre','descripcion','imagen']
-
-class PedidoForm(forms.ModelForm):
-    class Meta:
-        model = Pedido
-        fields = ['nombre', 'apellido', 'rut', 'telefono', 'direccion', 'ciudad']
 
         
 

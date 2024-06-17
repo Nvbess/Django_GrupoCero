@@ -60,13 +60,9 @@ class ItemCarrito(models.Model):
         return self.obra.valor * self.cantidad
     
 # NO HE PROBADO ESTO, PERO DEJE EL MODELO CREADO!
-    
-class Pedido(models.Model):
+
+class Voucher(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=200)
-    apellido = models.CharField(max_length=200)
-    rut = models.CharField(max_length=10)
-    telefono = models.IntegerField(default=0)
     direccion = models.CharField(max_length=255)
     ciudad = models.CharField(max_length=100)
     paypal_id = models.CharField(max_length=255, blank=True)

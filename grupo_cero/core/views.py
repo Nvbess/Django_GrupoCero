@@ -34,7 +34,7 @@ def register(request):
             group = Group.objects.get(name='Usuario')
             user.groups.add(group)
             # Autenticamos al user y lo redireccionamos
-            user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
+            user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'], request=request)
             login(request, user)
             messages.success(request, "Registro Completado Correctamente!")
             # Redirecciona
@@ -75,20 +75,18 @@ def artista_detalle(request, id):
     autor = get_object_or_404(Autor, id=id)
     return render(request, 'core/artista-detalle.html', {'autor': autor})
 
+@login_required
 def cart(request):
     cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
 
     cart = cart_usuario.items.all()
-    # Calcular la cantidad total de items en el carrito
+
     total_cantidad = sum(item.cantidad for item in cart)
 
-    # Calcular el subtotal sumando los subtotales de todos los items
     subtotal = sum(item.subtotal() for item in cart)
     
-    # Aquí asumimos que el envío es una cantidad fija, $0 en este caso
     envio = 20
     
-    # Total final
     total = subtotal + envio
 
     aux = {
@@ -137,65 +135,6 @@ def del_cart(request, id):
         messages.error(request, "No tienes permisos para modificar este ítem del carrito.")
 
     return redirect('cart')
-
-
-@login_required
-def checkout(request):
-
-    # NO FUNCIONA NADA DE ESTO!
-
-    cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
-
-    cart = cart_usuario.items.all()
-
-    if request.method == 'POST':
-        form = PedidoForm(request.POST)
-        if form.is_valid():
-            pedido = form.save(commit=False)
-            pedido.usuario = request.user
-            pedido.save()
-
-            # Procesamiento de pago con PayPal
-            paypal_dict = {
-                'business': settings.PAYPAL_RECEIVER_EMAIL,
-                'amount': str(pedido.total),
-                'item_name': 'Descripción del pedido',
-                'invoice': str(pedido.id),
-                'currency_code': 'USD',
-                'notify_url': request.build_absolute_uri(reverse('paypal-ipn')),
-                'return_url': request.build_absolute_uri(reverse('confirmacion_pago')),
-                'cancel_return': request.build_absolute_uri(reverse('cancelacion_pago')),
-            }
-
-            form = PayPalPaymentsForm(initial=paypal_dict)
-            aux = {
-                'cart': cart,
-                'pedido': pedido,
-                'form': form,
-            }
-            return render(request, 'core/checkout.html', aux)
-    else:
-        form = PedidoForm()
-
-    return render(request, 'core/payment/checkout.html', {'form': form, 'cart': cart})
-
-@login_required
-def confirmacion_pago(request):
-
-    # NO FUNCIONA NADA DE ESTO!
-
-    # Esta vista se llamará cuando PayPal confirme el pago
-    # Aquí puedes actualizar el estado del pedido, enviar correos electrónicos, etc.
-    pedido_id = request.GET.get('invoice')
-    pedido = Pedido.objects.get(id=pedido_id)
-    pedido.paypal_status = 'COMPLETED'
-    pedido.save()
-    return render(request, 'core/payment/confirmacion_pago.html', {'pedido': pedido})
-
-@login_required
-def cancelacion_pago(request):
-    # NO FUNCIONA NADA DE ESTO!
-    return render(request, 'core/payment/cancelacion_pago.html')
 
 def account_locked(request):
     return render(request, 'core/account_locked.html')

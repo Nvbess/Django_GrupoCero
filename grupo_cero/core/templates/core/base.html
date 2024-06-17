@@ -86,10 +86,10 @@
                         data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
+                    {% if user.is_authenticated %}
                     <a class="nav-icon position-relative text-decoration-none" href="{% url 'cart' %}">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     </a>
-                    {% if user.is_authenticated %}
                     <a class="nav-link position-relative text-decoration-none dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" style="text-transform: uppercase;">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i><b> {{user.username}} </b></a>
