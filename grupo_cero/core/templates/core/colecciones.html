@@ -42,10 +42,11 @@
                                             class="far fa-eye"></i></a></li>
                                 <li>
                                     <form action="{% url 'add_cart' s.id %}" method="post" style="display: inline;">
-                                    {% csrf_token %}
-                                    <a type="submit" class="btn btn-dark text-white mt-2" href="{% url 'add_cart' s.id %}"><i class="fas fa-cart-plus"></i></a>
-                                    </form>  
-                                </li>                            
+                                        {% csrf_token %}
+                                        <a type="submit" class="btn btn-dark text-white mt-2"
+                                            href="{% url 'add_cart' s.id %}"><i class="fas fa-cart-plus"></i></a>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -72,19 +73,21 @@
         </div>
         <nav aria-label="Page navigation">
             <ul class="pagination" style="justify-content: center; margin-top: 3%;">
-              {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
-              {% endif %}
-              {% for num in page_obj.paginator.page_range %}
-                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
                 </li>
-              {% endfor %}
-              {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
-              {% endif %}
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                </li>
+                {% endif %}
             </ul>
-          </nav>
+        </nav>
     </div>
 </div>
 <!-- End Content -->

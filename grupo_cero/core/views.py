@@ -66,8 +66,13 @@ def coleccion_detalle(request, id):
 
 def artistas(request):
     biografia = Autor.objects.all()
+    paginator = Paginator(biografia, 8) # Muestra 10 obras por pagina
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
-    aux = {'autor': biografia}
+    aux = {
+        'page_obj' : page_obj
+    }
 
     return render(request, 'core/artistas.html', aux)
 
