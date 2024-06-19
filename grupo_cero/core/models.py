@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Categoria(models.Model):
@@ -27,7 +28,7 @@ class Arte(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     descripcion = models.TextField()
     valor = models.IntegerField(default=0)
-    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
+    imagen = CloudinaryField('imagen')
     habilitado = models.BooleanField(default=False)
     mensaje = models.CharField(max_length=150, default='')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
