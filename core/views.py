@@ -10,9 +10,17 @@ from .serializers import *
 from rest_framework.renderers import JSONRenderer
 from django.core.paginator import Paginator
 import requests
-from django.conf import settings
-from django.urls import reverse
-from paypal.standard.forms import PayPalPaymentsForm
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Configurar Cloudinary con tus credenciales
+cloudinary.config(
+    cloud_name="dyh1syxfx",
+    api_key="346192587839451",
+    api_secret="l6A_FW9Xm4zY8yJrpPVU7B7IgoA"
+)
+
 
 def in_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
@@ -298,6 +306,7 @@ def colabadd(request):
 
     aux = {'form' : ArteCreationForm()}
     return render(request, 'core/colab/colab-add.html', aux)
+
 
 @login_required
 @user_passes_test(lambda u: in_group(u, 'Colaborador'))

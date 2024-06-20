@@ -14,10 +14,5 @@
             "src": "/(.*)",
             "dest": "grupo_cero/wsgi.py"
         }
-    ],
-    "env": {
-        "CLOUD_NAME": "dyh1syxfx",
-        "API_KEY": "124746648463112",
-        "API_SECRET": "YXbkHXnqiK45L71nXkMz66mnILo"
-    }
+    ]
 }
