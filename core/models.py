@@ -13,7 +13,7 @@ class Categoria(models.Model):
 class Autor(models.Model):
     nombre = models.CharField(max_length=150)
     descripcion = models.TextField()
-    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
+    imagen = CloudinaryField('imagen')
 
     def delete(self):
         self.imagen.delete()

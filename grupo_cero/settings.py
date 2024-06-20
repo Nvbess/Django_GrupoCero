@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'axes',
     'captcha',
     'django_recaptcha',
-    'cloudinary',
+    'cloudinary', #aqui lo agregamos
 ]
 
 # KEYS DEL RECAPTCHA
@@ -71,6 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.AxesMiddleware'
 ]
+
 
 # CONFIGURACION AXES
 AXES_FAILURE_LIMIT = 3                      #Numero de intentos fallidos.
@@ -102,18 +103,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'grupo_cero.wsgi.application'
 
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-#CONFIG CLOUDINARY
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME' : 'dyh1syxfx',
-    'API_KEY': '124746648463112',
-    'API_SECRET':'YXbkHXnqiK45L71nXkMz66mnILo'
-}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -177,6 +166,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#CONFIG CLOUDINARY
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME' : 'dyh1syxfx',
+    'API_KEY': '124746648463112',
+    'API_SECRET':'YXbkHXnqiK45L71nXkMz66mnILo'
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
