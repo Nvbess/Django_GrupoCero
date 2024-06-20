@@ -1,4 +1,9 @@
 {
+    "functions": [{
+      "api/**": {
+        "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
+      }
+    }],
     "builds":[{
         "src": "grupo_cero/wsgi.py",
         "use": "@vercel/python"
@@ -7,6 +12,5 @@
         "src" : "/(.*)",
         "dest": "grupo_cero/wsgi.py" 
     }]
-
 }
 
