@@ -1,9 +1,7 @@
 {
     "builds":[{
         "src": "grupo_cero/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python 3.9"}
-
+        "use": "@vercel/python"
     }], 
     "routes":[{
         "src" : "/(.*)",
