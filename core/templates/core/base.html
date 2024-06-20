@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <title>Colectivo Grupo Cero</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="{% static 'core/assets/img/apple-icon.png' %}">
+
+    <link rel="stylesheet" href="{% static 'core/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assets/css/templatemo.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assets/css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assets/css/art-col.css' %}">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="{% static 'core/assets/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {% block contenido-head %}
+    
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="{% url 'index' %}">
+                <img src="{% static 'core/assets/img/logo-01.png' %}" alt="Logo" width="110" class="d-inline-block" />
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+                id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'artistas' %}">Artistas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'colecciones' %}">Colecciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        {% for group in user.groups.all %}
+                        {% if group.name == 'Administrador' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admingc' %}">Admin</a>
+                        </li>
+                        {% endif %}
+                        {% if group.name == 'Colaborador' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'colabgc' %}">Colaborador</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <div class="input-group-text">
+                                <i class="fa fa-fw fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                        data-bs-target="#templatemo_search">
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a class="nav-icon position-relative text-decoration-none" href="{% url 'cart' %}">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    </a>
+                    <a class="nav-link position-relative text-decoration-none dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" style="text-transform: uppercase;">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i><b> {{user.username}} </b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'configuracion' user.id %}">Configuración</a>
+                        </li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="POST">{% csrf_token %}
+                                <input class="btn dropdown-item" type="submit" value="Cerrar Sesión">
+                            </form>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <a class="nav-link position-relative text-decoration-none dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'login' %}">Iniciar Sesión</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'register' %}">Registrarse</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- Close Header -->
+
+    <!-- Modal Search -->
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="w-100 pt-1 mb-5 text-right">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                    <button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Close Modal Search -->
+
+    {% block contenido %}
+
+    {% endblock %}
+
+    <!-- Start Footer -->
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <img src="{% static 'core/assets/img/logoGAMWhite.png' %}" alt="Logo" width="110"
+                        class="d-inline-block mb-5" />
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            Av. Libertador Bernardo O'Higgins 227
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:56984192349">+569 84192349</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:contacto@grupoc.com">contacto@grupoc.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Artistas</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 1 %}">Roberto Matta</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 2 %}">Gracia Barrios</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 4 %}">Pablo Picasso</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artista_detalle' 3 %}">Joan Miro</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Información</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="{% url 'index' %}">Home</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'artistas' %}">Artistas</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'colecciones' %}">Colecciones</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'contacto' %}">Contacto</a></li>
+                        <li><a class="text-decoration-none" href="#">Carrito</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="#"><i
+                                    class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="#"><i
+                                    class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="#"><i
+                                    class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="subscribeEmail">Email address</label>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail"
+                            placeholder="Email address">
+                        <div class="input-group-text btn-dark text-light">Subscribe</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">
+                            Copyright &copy; 2024 Colectivo Grupo Cero
+                            | Designed by <a rel="sponsored" href="#" target="_blank">GrupoAnalistas</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Start Script -->
+    <script src="{% static 'core/assets/js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'core/assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'core/assets/js/templatemo.js' %}"></script>
+    <script src="{% static 'core/assets/js/custom.js' %}"></script>
+    <script src="{% static 'core/assets/js/funciones.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    {% if messages %}
+    {% for aux in messages %}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "{{aux.tags}}",
+            title: "{{aux}}"
+        })
+    </script>
+    {% endfor %}
+    {% endif %}
+
+</body>
+
+</html>
