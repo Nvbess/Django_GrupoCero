@@ -11,6 +11,7 @@ from .serializers import *
 from rest_framework.renderers import JSONRenderer
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.conf import settings
 import json
 import requests
 import cloudinary
@@ -24,11 +25,13 @@ cloudinary.config(
     api_secret="l6A_FW9Xm4zY8yJrpPVU7B7IgoA"
 )
 
-
 def in_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
 
-# Create your views here.
+##########################################################
+##############      VIEWS PRINCIPAL   ####################
+##########################################################
+
 def index(request):
     return render(request, 'core/index.html')
 
@@ -90,6 +93,9 @@ def artistas(request):
 def artista_detalle(request, id):
     autor = get_object_or_404(Autor, id=id)
     return render(request, 'core/artista-detalle.html', {'autor': autor})
+
+def account_locked(request):
+    return render(request, 'core/account_locked.html')
 
 @login_required
 def cart(request):
@@ -156,7 +162,6 @@ def del_cart(request, id):
 def payment_confirmation(request, voucher_id=None):
     if request.method == 'POST':
         data = json.loads(request.body)
-        # Save the payment details in the database
         voucher = Voucher.objects.create(
             payment_id=data['paymentID'],
             payer_id=data['payerID'],
@@ -172,9 +177,6 @@ def payment_confirmation(request, voucher_id=None):
         return render(request, 'core/payment/voucher.html', {'voucher': voucher})
     else:
         return JsonResponse({'error': 'Voucher ID not provided'}, status=400)
-
-def account_locked(request):
-    return render(request, 'core/account_locked.html')
 
 ##########################################################
 ##############      ADMIN VIEWS       ####################
@@ -288,8 +290,6 @@ def rechazar_obra(request,id):
         return redirect('adminsolicitud')
     return render(request, 'core/admin/rechazar-obra.html', {'obra': obra})
 
-
-
 ##########################################################
 ##############      COLABORADOR VIEWS       ##############
 ##########################################################
@@ -362,8 +362,7 @@ def colablist(request):
 ##############      SECCION DE APIS         ##############
 ##########################################################
 
-
-#UTILIZAMOS LOS VIEWSETS PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
+# UTILIZAMOS LOS VIEWSETS PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
 class ArteViewset(viewsets.ModelViewSet):
     queryset = Arte.objects.all()
     serializer_class = ArteSerializer
@@ -373,6 +372,52 @@ class AutorViewset(viewsets.ModelViewSet):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
     renderer_classes = [JSONRenderer] 
+
+# CONSUMO DE API
+def ArteAPI(request):
+    response = requests.get('http://127.0.0.1:8000/api/Arte/')
+    arte = response.json()
+
+    aux = {'obras' : arte}
+
+    return render(request, 'core/crudapi/index.html', aux)
+
+def obtener_token():
+    url = "https://api.artsy.net/api/tokens/xapp_token"
+    data = {
+        "client_id": settings.ARTSY_CLIENT_ID,
+        "client_secret": settings.ARTSY_CLIENT_SECRET
+    }
+    response = requests.post(url, data=data)
+    return response.json().get('token')
+
+def obtener_obras(token):
+    headers = {
+        "X-Xapp-Token": token
+    }
+    url = "https://api.artsy.net/api/artworks"
+    response = requests.get(url, headers=headers)
+    obras = response.json().get('_embedded', {}).get('artworks', [])
+    # Transformar los datos para que las claves sean compatibles con Django
+    for obra in obras:
+        obra['links'] = obra.pop('_links')
+        # Verifica si 'image_versions' y 'image' están presentes
+        if 'image_versions' in obra['links']['image'] and 'href' in obra['links']['image']:
+            image_url = obra['links']['image']['href']
+            if '{image_version}' in image_url:
+                image_url = image_url.replace('{image_version}', 'large')
+            obra['imagen_url'] = image_url
+        else:
+            obra['imagen_url'] = ''
+    return obras
+
+def ExhibicionAPI(request):
+    token = obtener_token()
+    obras = obtener_obras(token)
+    contexto = {
+        'obras': obras
+    }
+    return render(request, 'core/crudapi/exhibicion.html', contexto)
 
 ##########################################################
 ##############      USER VIEWS       ####################
@@ -400,12 +445,5 @@ def userupd(request, id):
             
     return render(request, 'core/user/user-upd.html', {'form': formulario})
 
-# CONSUMO DE API
-def ArteAPI(request):
-    response = requests.get('http://127.0.0.1:8000/api/Arte/')
-    arte = response.json()
 
-    aux = {'obras' : arte}
-
-    return render(request, 'core/crudapi/index.html', aux) 
 

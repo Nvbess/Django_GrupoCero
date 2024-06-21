@@ -73,6 +73,9 @@ MULTI_CAPTCHA_ADMIN = {
     'engine': 'simple-captcha',
 }
 
+ARTSY_CLIENT_ID = 'be904db07a87d9cae37c'
+ARTSY_CLIENT_SECRET = '82d6eb8b5afa3aaacffffce90cc643a1'
+
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 MIDDLEWARE = [

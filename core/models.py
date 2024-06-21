@@ -63,6 +63,7 @@ class ItemCarrito(models.Model):
 # NO HE PROBADO ESTO, PERO DEJE EL MODELO CREADO!
 
 class Voucher(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=255)
     payer_id = models.CharField(max_length=255)
     order_id = models.CharField(max_length=255)
