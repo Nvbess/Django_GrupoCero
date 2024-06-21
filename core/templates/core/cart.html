@@ -16,7 +16,7 @@
                                     <h5 class="card-title">{{ total_cantidad }} Items</h5>
                                 </div>
                                 <hr>
-                                {% for x in cart %}
+                                {% for x, usd_price in cart %}
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
@@ -34,8 +34,13 @@
                                                 <div style="width: 50px;">
                                                     <h5 class="fw-normal mb-0">{{ x.cantidad }}</h5>
                                                 </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$ {{ x.obra.valor }}</h5>
+                                                <div style="width: 100px;">
+                                                    <h5 class="mb-0">USD $ {{ x.obra.valor }}</h5>
+                                                    {% if usd_price %}
+                                                        <p class="small mb-0">CLP $ {{ usd_price|floatformat:"0g" }}</p>
+                                                    {% else %}
+                                                        <p class="small mb-0">CLP $ N/A</p>
+                                                    {% endif %}
                                                 </div>
                                                 <a href="{% url 'del_cart' x.id %}" style="color: #cecece;"><i
                                                         class="fas fa-trash-alt"></i></a>
@@ -52,28 +57,62 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-1 mt-2"><b>Subtotal</b></p>
-                                            <p class="mb-1 mt-2">$ {{ subtotal }}</p>
+                                            <p class="mb-1 mt-2">USD $ {{ subtotal }}</p>
                                         </div>
+                                        {% if subtotal_usd %}
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-1 mt-2"></p>
+                                            <p class="mb-1 mt-2 text-right">CLP $ {{ subtotal_usd|floatformat:"0g" }}</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-1 mt-2"></p>
+                                            <p class="mb-1 mt-2 text-right">CLP $ N/A</p>
+                                        </div>
+                                        {% endif %}
                                         <hr>
-                                        {% for x in cart %}
+                                        {% for x, usd_price in cart %}
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-1">{{ x.obra.titulo }}</p>
-                                            <p class="mb-1">$ {{ x.subtotal }}</p>
+                                            <p class="mb-1">USD $ {{ x.subtotal }}</p>
                                         </div>
                                         {% endfor %}
                                         <hr>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-1"><b>Envio</b></p>
-                                            <p class="mb-1">$ {{ envio }}</p>
+                                            <p class="mb-1">USD $ {{ envio }}</p>
                                         </div>
+                                        {% if envio_usd %}
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-1 mt-2"></p>
+                                            <p class="mb-1 mt-2 text-right">CLP $ {{ envio_usd|floatformat:"0g" }}</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-1 mt-2"></p>
+                                            <p class="mb-1 mt-2 text-right">CLP $ N/A</p>
+                                        </div>
+                                        {% endif %}
+                                        <hr>
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-1"><b>Total</b></p>
-                                            <p class="mb-1">$ {{ total }}</p>
+                                            <p class="mb-1">USD $ {{ total }}</p>
                                         </div>
+                                        {% if total_usd %}
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <p class="mb-1"></p>
+                                            <p class="mb-1 text-right">CLP $ {{ total_usd|floatformat:"0g" }}</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <p class="mb-1"></p>
+                                            <p class="mb-1 text-right">CLP $ N/A</p>
+                                        </div>
+                                        {% endif %}
                                         <div style="justify-content: center;" class="text-center" id="paypal-button"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
                     {% else %}
                     <h1> Debe iniciar sesión para utilizar el carrito.</h1>
@@ -84,7 +123,6 @@
         </div>
     </div>
 </section>
-
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>

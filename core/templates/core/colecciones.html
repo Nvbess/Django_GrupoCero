@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="row">
-            {% for s in page_obj %}
+            {% for s, usd_price in page_obj %}
             {% if s.habilitado == True %}
             <div class="col-3">
                 <div class="card mb-4 product-wap rounded-0 obra-card">
@@ -64,7 +64,7 @@
                                 style="text-decoration: none; color: #222;">
                                 <p class="card-text mb-2">{{ s.autor }}</p>
                             </a>
-                            <p class="card-text">${{ s.valor|floatformat:"0g" }}</p>
+                            <p class="card-text">USD ${{ s.valor|floatformat:"0g" }} | CLP ${{ usd_price|floatformat:"0g" }}</p>
                     </div>
                 </div>
             </div>

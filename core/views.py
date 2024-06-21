@@ -34,6 +34,16 @@ cloudinary.config(
 def in_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
 
+def IndicadorAPI():
+    try:
+        response = requests.get('https://mindicador.cl/api')
+        data = response.json()
+        usd_rate = data['dolar']['valor']
+        return usd_rate
+    except Exception as e:
+        print("Error al obtener la tasa de cambio:", e)
+        return None
+
 ##########################################################
 ##############      VIEWS PRINCIPAL   ####################
 ##########################################################
@@ -70,19 +80,34 @@ def contacto(request):
 
 def colecciones(request):
     publicaciones = Arte.objects.all()
-    paginator = Paginator(publicaciones, 8) # Muestra 10 obras por pagina
+    paginator = Paginator(publicaciones, 8) # Muestra 8 obras por pagina
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    usd_rate = IndicadorAPI()
+    obras_converted = []
+
+    for obra in page_obj:
+        obra_usd_price = obra.valor * usd_rate if usd_rate else None
+        obras_converted.append((obra, obra_usd_price))
+
     aux = {
-        'page_obj' : page_obj
+        'page_obj': obras_converted,
+        'usd_rate': usd_rate
     }
 
     return render(request, 'core/colecciones.html', aux)
 
 def coleccion_detalle(request, id):
     obra = get_object_or_404(Arte, id=id)
-    return render(request, 'core/obra.html', {'obra': obra})
+    usd_rate = IndicadorAPI()
+    obra_usd_price = obra.valor * usd_rate if usd_rate else None
+
+    return render(request, 'core/obra.html', {
+        'obra': obra,
+        'usd_rate': usd_rate,
+        'obra_usd_price': obra_usd_price
+    })
 
 def artistas(request):
     biografia = Autor.objects.all()
@@ -112,17 +137,34 @@ def cart(request):
     total_cantidad = sum(item.cantidad for item in cart)
 
     subtotal = sum(item.subtotal() for item in cart)
-    
-    envio = 20
-    
+
+    envio = 10
+
     total = subtotal + envio
 
+    usd_rate = IndicadorAPI()
+
+    # Calcular los valores en USD
+    if usd_rate:
+        cart_with_usd = [(item, item.subtotal() * usd_rate) for item in cart]
+        subtotal_usd = subtotal * usd_rate
+        envio_usd = envio * usd_rate
+        total_usd = total * usd_rate
+    else:
+        cart_with_usd = [(item, None) for item in cart]
+        subtotal_usd = None
+        envio_usd = None
+        total_usd = None
+
     aux = {
-        'cart': cart,
+        'cart': cart_with_usd,
         'total_cantidad': total_cantidad,
         'subtotal': subtotal,
+        'subtotal_usd': subtotal_usd,
         'envio': envio,
-        'total': total
+        'envio_usd': envio_usd,
+        'total': total,
+        'total_usd': total_usd
     }
 
     return render(request, 'core/cart.html', aux)
@@ -392,42 +434,6 @@ def ArteAPI(request):
 
     return render(request, 'core/crudapi/index.html', aux)
 
-def obtener_token():
-    url = "https://api.artsy.net/api/tokens/xapp_token"
-    data = {
-        "client_id": settings.ARTSY_CLIENT_ID,
-        "client_secret": settings.ARTSY_CLIENT_SECRET
-    }
-    response = requests.post(url, data=data)
-    return response.json().get('token')
-
-def obtener_obras(token):
-    headers = {
-        "X-Xapp-Token": token
-    }
-    url = "https://api.artsy.net/api/artworks"
-    response = requests.get(url, headers=headers)
-    obras = response.json().get('_embedded', {}).get('artworks', [])
-    # Transformar los datos para que las claves sean compatibles con Django
-    for obra in obras:
-        obra['links'] = obra.pop('_links')
-        # Verifica si 'image_versions' y 'image' están presentes
-        if 'image_versions' in obra['links']['image'] and 'href' in obra['links']['image']:
-            image_url = obra['links']['image']['href']
-            if '{image_version}' in image_url:
-                image_url = image_url.replace('{image_version}', 'large')
-            obra['imagen_url'] = image_url
-        else:
-            obra['imagen_url'] = ''
-    return obras
-
-def ExhibicionAPI(request):
-    token = obtener_token()
-    obras = obtener_obras(token)
-    contexto = {
-        'obras': obras
-    }
-    return render(request, 'core/crudapi/exhibicion.html', contexto)
 
 ##########################################################
 ##############      USER VIEWS       ####################
@@ -435,8 +441,7 @@ def ExhibicionAPI(request):
 
 def configuracion(request, id):
     usuario = get_object_or_404(User, id=id)
-    vouchers = Voucher.objects.filter(usuario=usuario)
-    return render(request, 'core/user/user-config.html', {'usuario': usuario, 'vouchers': vouchers})
+    return render(request, 'core/user/user-config.html', {'usuario': usuario})
 
 def userupd(request, id):
     usuario = get_object_or_404(User, id=id)
@@ -472,27 +477,21 @@ def render_to_pdf(template_src, context_dict={}):
 
 @login_required
 def generate_voucher_pdf(request, voucher_id):
-    # Obtener el voucher por su ID
     voucher = get_object_or_404(Voucher, id=voucher_id)
     
-    # Verificar que el voucher pertenezca al usuario autenticado
     if voucher.usuario != request.user:
         return HttpResponse("Acceso denegado para este voucher.", status=403)
     
-    # Renderizar la plantilla HTML a una cadena de texto HTML
     html = render_to_string('core/payment/voucher-pdf.html', {'voucher': voucher})
     
-    # Crear un archivo en memoria (BytesIO) para el PDF
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
     
-    # Si se generó correctamente el PDF, devolverlo como una respuesta de Django
     if not pdf.err:
         response = HttpResponse(result.getvalue(), content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="voucher_{voucher.payment_id}.pdf"'
         return response
     
-    # Si hubo algún error al generar el PDF, devolver un mensaje de error
     return HttpResponse('Error al generar el PDF.', status=500)
 
 
