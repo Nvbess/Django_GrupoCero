@@ -135,7 +135,7 @@
                     }
                 }).then(function (json) {
                     // Redirect to the confirmation page with the voucher ID
-                    window.location.href = '/payment-confirmation/' + json.voucher_id;
+                    window.location.href = '/confirmacion/' + json.voucher_id + '/';
                 }).catch(function (err) {
                     console.error(err);
                 });

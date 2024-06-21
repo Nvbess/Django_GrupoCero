@@ -40,6 +40,7 @@ urlpatterns = [
         # Voucher
         path('confirmacion/', payment_confirmation, name='confirmacion'),
         path('confirmacion/<int:voucher_id>/', payment_confirmation, name='voucher'),
+        path('voucher-pdf/<int:voucher_id>/', generate_voucher_pdf, name='voucher_pdf'),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),

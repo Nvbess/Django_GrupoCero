@@ -17,6 +17,12 @@ import requests
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template,render_to_string 
+from xhtml2pdf import pisa
+
+
 
 # Configurar Cloudinary con tus credenciales
 cloudinary.config(
@@ -159,10 +165,12 @@ def del_cart(request, id):
     return redirect('cart')
 
 @csrf_exempt
+@login_required
 def payment_confirmation(request, voucher_id=None):
     if request.method == 'POST':
         data = json.loads(request.body)
         voucher = Voucher.objects.create(
+            usuario= request.user,
             payment_id=data['paymentID'],
             payer_id=data['payerID'],
             order_id=data['orderID'],
@@ -174,6 +182,8 @@ def payment_confirmation(request, voucher_id=None):
     
     if voucher_id:
         voucher = get_object_or_404(Voucher, id=voucher_id)
+        if voucher.usuario != request.user:
+            return JsonResponse({'error': 'No tienes permiso para ver este voucher.'}, status=403)
         return render(request, 'core/payment/voucher.html', {'voucher': voucher})
     else:
         return JsonResponse({'error': 'Voucher ID not provided'}, status=400)
@@ -425,7 +435,8 @@ def ExhibicionAPI(request):
 
 def configuracion(request, id):
     usuario = get_object_or_404(User, id=id)
-    return render(request, 'core/user/user-config.html', {'usuario': usuario})
+    vouchers = Voucher.objects.filter(usuario=usuario)
+    return render(request, 'core/user/user-config.html', {'usuario': usuario, 'vouchers': vouchers})
 
 def userupd(request, id):
     usuario = get_object_or_404(User, id=id)
@@ -445,5 +456,43 @@ def userupd(request, id):
             
     return render(request, 'core/user/user-upd.html', {'form': formulario})
 
+
+##########################################################
+##############      PDF       ####################
+##########################################################
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+@login_required
+def generate_voucher_pdf(request, voucher_id):
+    # Obtener el voucher por su ID
+    voucher = get_object_or_404(Voucher, id=voucher_id)
+    
+    # Verificar que el voucher pertenezca al usuario autenticado
+    if voucher.usuario != request.user:
+        return HttpResponse("Acceso denegado para este voucher.", status=403)
+    
+    # Renderizar la plantilla HTML a una cadena de texto HTML
+    html = render_to_string('core/payment/voucher-pdf.html', {'voucher': voucher})
+    
+    # Crear un archivo en memoria (BytesIO) para el PDF
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    
+    # Si se generó correctamente el PDF, devolverlo como una respuesta de Django
+    if not pdf.err:
+        response = HttpResponse(result.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="voucher_{voucher.payment_id}.pdf"'
+        return response
+    
+    # Si hubo algún error al generar el PDF, devolver un mensaje de error
+    return HttpResponse('Error al generar el PDF.', status=500)
 
 
