@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -9,6 +10,8 @@ from rest_framework import viewsets
 from .serializers import *
 from rest_framework.renderers import JSONRenderer
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+import json
 import requests
 import cloudinary
 import cloudinary.uploader
@@ -148,6 +151,27 @@ def del_cart(request, id):
         messages.error(request, "No tienes permisos para modificar este ítem del carrito.")
 
     return redirect('cart')
+
+@csrf_exempt
+def payment_confirmation(request, voucher_id=None):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # Save the payment details in the database
+        voucher = Voucher.objects.create(
+            payment_id=data['paymentID'],
+            payer_id=data['payerID'],
+            order_id=data['orderID'],
+            payment_token=data['paymentToken'],
+            return_url=data['returnUrl'],
+            details=data['details'],
+        )
+        return JsonResponse({'voucher_id': voucher.id})
+    
+    if voucher_id:
+        voucher = get_object_or_404(Voucher, id=voucher_id)
+        return render(request, 'core/payment/voucher.html', {'voucher': voucher})
+    else:
+        return JsonResponse({'error': 'Voucher ID not provided'}, status=400)
 
 def account_locked(request):
     return render(request, 'core/account_locked.html')

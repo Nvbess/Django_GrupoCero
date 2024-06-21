@@ -63,13 +63,12 @@ class ItemCarrito(models.Model):
 # NO HE PROBADO ESTO, PERO DEJE EL MODELO CREADO!
 
 class Voucher(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    direccion = models.CharField(max_length=255)
-    ciudad = models.CharField(max_length=100)
-    paypal_id = models.CharField(max_length=255, blank=True)
-    paypal_status = models.CharField(max_length=50, blank=True)
-    fecha_pedido = models.DateTimeField(auto_now_add=True)
-    pedido_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    payment_id = models.CharField(max_length=255)
+    payer_id = models.CharField(max_length=255)
+    order_id = models.CharField(max_length=255)
+    payment_token = models.CharField(max_length=255)
+    return_url = models.URLField()
+    details = models.JSONField()
 
     def __str__(self):
-        return f"Pedido #{self.pedido_id} de {self.usuario.username}"
+        return self.payment_id

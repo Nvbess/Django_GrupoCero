@@ -37,6 +37,9 @@ urlpatterns = [
         path('account_locked/', account_locked, name="account_locked"),
         path('add_cart/<int:id>/', add_cart, name="add_cart"),
         path('del_cart/<int:id>/', del_cart, name="del_cart"),
+        # Voucher
+        path('confirmacion/', payment_confirmation, name='confirmacion'),
+        path('confirmacion/<int:voucher_id>/', payment_confirmation, name='voucher'),
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),

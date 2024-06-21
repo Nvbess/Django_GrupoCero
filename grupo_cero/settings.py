@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
     'admin_confirm',
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +67,11 @@ INSTALLED_APPS = [
 # KEYS DEL RECAPTCHA
 RECAPTCHA_PUBLIC_KEY = '6LezsvUpAAAAAE65YuqsMpbqa3CY1SpLZCaLUko3'
 RECAPTCHA_PRIVATE_KEY = '6LezsvUpAAAAANtRZBx5pB2wCefVhIRtmg5HCJpG'
+
+#CONFIG MULTI CAPTCHA
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 

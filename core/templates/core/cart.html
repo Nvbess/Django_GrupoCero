@@ -70,9 +70,7 @@
                                             <p class="mb-1"><b>Total</b></p>
                                             <p class="mb-1">$ {{ total }}</p>
                                         </div>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block btn-lg">
-                                            <div class="d-flex justify-content-between"><span><b>Checkout</b> <i class="fas fa-long-arrow-alt-right ms-2"></i> </span></a></div>
-                                        </button>
+                                        <div style="justify-content: center;" class="text-center" id="paypal-button"></div>
                                     </div>
                                 </div>
                             </div>
@@ -86,5 +84,65 @@
         </div>
     </div>
 </section>
+
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+        env: 'sandbox',
+        client: {
+            sandbox: 'AWvy2NBr7b0Q3KAfvop1kPOiPGsOhYVLLMiQbNJHfoKMHXLI7T_VlVkgn4mAz7UpIcLJjXTWWj_GtoVB',
+            production: 'demo_production_client_id'
+        },
+        locale: 'en_US',
+        style: {
+            size: 'medium',
+            color: 'gold',
+            shape: 'rect',
+        },
+        commit: true,
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: '{{ total }}',
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function (details) {
+                // Send the transaction details to the server
+                return fetch('/confirmacion/', {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        paymentID: data.paymentID,
+                        payerID: data.payerID,
+                        orderID: data.orderID,
+                        paymentToken: data.paymentToken,
+                        returnUrl: data.returnUrl,
+                        details: details
+                    })
+                }).then(function (res) {
+                    if (res.ok) {
+                        return res.json();
+                    } else {
+                        throw new Error('Payment confirmation failed.');
+                    }
+                }).then(function (json) {
+                    // Redirect to the confirmation page with the voucher ID
+                    window.location.href = '/payment-confirmation/' + json.voucher_id;
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            });
+        }
+    }, '#paypal-button');
+</script>
+
 
 {% endblock %}
