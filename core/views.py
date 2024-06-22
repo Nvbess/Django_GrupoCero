@@ -84,16 +84,8 @@ def colecciones(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    usd_rate = IndicadorAPI()
-    obras_converted = []
-
-    for obra in page_obj:
-        obra_usd_price = obra.valor * usd_rate if usd_rate else None
-        obras_converted.append((obra, obra_usd_price))
-
     aux = {
-        'page_obj': obras_converted,
-        'usd_rate': usd_rate
+        'page_obj' : page_obj
     }
 
     return render(request, 'core/colecciones.html', aux)
@@ -132,14 +124,15 @@ def account_locked(request):
 def cart(request):
     cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
 
+    cart = cart_usuario.items.all()
+
     total_cantidad = sum(item.cantidad for item in cart)
     subtotal = sum(item.subtotal() for item in cart)
-    envio = 10
+    envio = 0
     total = subtotal + envio
 
     usd_rate = IndicadorAPI()
 
-    # Calcular los valores en USD
     if usd_rate:
         cart_with_usd = [(item, item.subtotal() * usd_rate) for item in cart]
         subtotal_usd = subtotal * usd_rate
@@ -204,8 +197,6 @@ def del_cart(request, id):
 @csrf_exempt
 @login_required
 def payment_confirmation(request, voucher_id=None):
-    cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
-
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -218,13 +209,9 @@ def payment_confirmation(request, voucher_id=None):
                 return_url=data['returnUrl'],
                 details=data['details'],
             )
+            return redirect('voucher_page', voucher_id=voucher.id)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
-
-        # Limpieza del carrito después de crear el voucher
-        cart_usuario.items.clear()
-
-        return JsonResponse({'voucher_id': voucher.id})
 
     if voucher_id:
         voucher = get_object_or_404(VoucherCompra, id=voucher_id)
