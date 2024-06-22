@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+<br><br><br><br><br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body text-start">
+                <h2>Mis Datos</h2>
+                <hr>
+                <table class="table table-responsive-sm ">
+                    <tbody>
+                        <tr><th>Usuario</th><td>{{ user.username }}</td></tr>
+                        <tr><th>Nombre</th><td>{{ user.first_name }}</td></tr>
+                        <tr><th>Apellido</th><td>{{ user.last_name }}</td></tr>
+                        <tr><th>Email</th><td>{{ user.email }}</td></tr>
+                    </tbody>
+                
+                    
+                </table>
+                <a href="{% url 'userupd' user.id %}" class="btn btn-outline-success">Modificar Datos</a> 
+            </div>
+        </div>
+        <br>
+        <!--<div class="card">
+            <div class="card-body text-start">
+                <h2>Mi Contraseña</h2>
+                <hr>
+                <table class="table table-responsive-sm ">
+                    <tbody>
+                        <tr><th>Contraseña</th><td>**********</td></tr>
+                    </tbody>
+                </table>
+                <a href="#" class="btn btn-outline-success">Cambiar Contraseña</a>
+            </div>
+        </div>-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h2>Historial de Compras</h2>
+                <hr>
+                <table class="table table-striped table-hover table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>Compra</th>
+                            <th>Ver Voucher</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for voucher in vouchers %}
+                        <tr>
+                            <td>
+                                <h5 class="mb-1">Compra ID: {{ voucher.payment_id }}</h5>
+                                <p class="mb-1">Fecha: {{ voucher.details.create_time }}</p>
+                            </td>
+                            <td>
+                                <a href="{% url 'voucher' voucher.id %}" class="btn btn-outline-primary">Revisar Compra</a>
+                                <a href="{% url 'voucher_pdf' voucher.id %}" class="btn btn-outline-danger">Descargar PDF</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not vouchers %}
+                    <p>No hay compras registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br>
+{% endblock %}

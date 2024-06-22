@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+
+<!-- Start Banner Hero -->
+<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 0%;">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'core/assets/img/banner-01.jpg' %}" alt="ex_uno" class="img-fluid d-block w-100" />
+            <div class="overlay">
+                <div class="text"><a href="{% url 'artista_detalle' 13 %}">JOAN MIRÓ</a></div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'core/assets/img/banner-02.png' %}" alt="ex_dos" class="img-fluid d-block w-100" />
+            <div class="overlay">
+                <div class="text"><a href="{% url 'artista_detalle' 15 %}">ROBERTO MATTA</a></div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'core/assets/img/banner-04.png' %}" alt="ex_tres" class="img-fluid d-block w-100" />
+            <div class="overlay">
+                <div class="text"><a href="{% url 'artista_detalle' 12 %}">GRACIA BARRIOS</a></div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
+        role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
+        role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+<!-- End Banner Hero -->
+
+<!-- Start Container Text -->
+<section class="container py-4">
+    <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+            <h1 class="h1">Colectivo Grupo Cero</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, tempora. Expedita dolores voluptatibus
+                quia quaerat modi aut nobis ducimus ipsa.
+            </p>
+        </div>
+    </div>
+</section>
+<!-- End Container Text -->
+
+{% endblock %}

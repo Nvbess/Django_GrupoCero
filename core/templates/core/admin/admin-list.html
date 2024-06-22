@@ -1,0 +1,35 @@
+{% extends 'core/admin/admingc.html' %}
+{% load static %}
+{% block contenido_adm %}
+<div class="container mt-3">
+    <h2>Administrar Cuentas</h2>
+    <table class="table table-dark table-hover">
+        <thead>          
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for colaborador in colaboradores %}
+            <div>
+                <tr>
+                    <td>{{ colaborador.first_name }}</td>
+                    <td>{{ colaborador.last_name }}</td>
+                    <td>{{ colaborador.username }}</td>
+                    <td>{{ colaborador.email }}</td>
+                    <td><button><a href="{% url 'adminupd' colaborador.username %}"> Modificar </a></button></td>
+                    <td><button><a onclick="confirmarEliminar('{{ colaborador.username }}')"> Eliminar </a></button></td>
+                </tr>
+            </div>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

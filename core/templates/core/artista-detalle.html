@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<div style="margin-top: 6%;">
+    <div class="card-obra mb-3">
+        <div class="row g-0 ">
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="{{ autor.imagen.url }}" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h2 class="card-title-obra">{{ autor.nombre }}</h2>
+                    <p class="card-text">{{ autor.descripcion|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

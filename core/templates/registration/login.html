@@ -1,0 +1,29 @@
+{% extends 'core/base-login.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block contenido_registration %}
+<form method="POST">
+  <h2 class="mb-5 mt-5">Iniciar Sesión</h2>
+
+  {% csrf_token %} <!-- Token de Seguridad -->
+  <div class="form-row">
+    <div class="form-group col-md-12 mb-4">
+      {{ form.username|as_crispy_field }} <!-- Cargar form y Crispy Forms para usarlo -->
+    </div>
+    <div class="form-group col-md-12 mb-4">
+      {{ form.password|as_crispy_field }} <!-- Cargar form y Crispy Forms para usarlo -->
+    </div>
+  </div>
+
+  <div class="text-center pt-1 mb-5 pb-1">
+    <input type="submit" class="btn btn-dark mt-3" value="Ingresar">
+  </div>
+
+  <div class="d-flex align-items-center justify-content-center pb-4">
+    <p class="mb-0 me-2">No tienes una cuenta?</p>
+    <a class="btn btn-outline-danger" href="{% url 'register' %}" style="text-decoration: none;"">Registrate</a>
+  </div>
+</form>
+
+{% endblock %}
