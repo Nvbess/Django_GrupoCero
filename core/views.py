@@ -124,6 +124,8 @@ def account_locked(request):
 def cart(request):
     cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
 
+    cart = cart_usuario.items.all()
+
     total_cantidad = sum(item.cantidad for item in cart)
     subtotal = sum(item.subtotal() for item in cart)
     envio = 10
