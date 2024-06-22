@@ -22,8 +22,6 @@ from django.http import HttpResponse
 from django.template.loader import get_template,render_to_string 
 from xhtml2pdf import pisa
 
-
-
 # Configurar Cloudinary con tus credenciales
 cloudinary.config(
     cloud_name="dyh1syxfx",
