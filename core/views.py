@@ -132,14 +132,9 @@ def account_locked(request):
 def cart(request):
     cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
 
-    cart = cart_usuario.items.all()
-
     total_cantidad = sum(item.cantidad for item in cart)
-
     subtotal = sum(item.subtotal() for item in cart)
-
     envio = 10
-
     total = subtotal + envio
 
     usd_rate = IndicadorAPI()
@@ -209,21 +204,30 @@ def del_cart(request, id):
 @csrf_exempt
 @login_required
 def payment_confirmation(request, voucher_id=None):
+    cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
+
     if request.method == 'POST':
-        data = json.loads(request.body)
-        voucher = Voucher.objects.create(
-            usuario= request.user,
-            payment_id=data['paymentID'],
-            payer_id=data['payerID'],
-            order_id=data['orderID'],
-            payment_token=data['paymentToken'],
-            return_url=data['returnUrl'],
-            details=data['details'],
-        )
+        try:
+            data = json.loads(request.body)
+            voucher = VoucherCompra.objects.create(
+                usuario=request.user,
+                payment_id=data['paymentID'],
+                payer_id=data['payerID'],
+                order_id=data['orderID'],
+                payment_token=data['paymentToken'],
+                return_url=data['returnUrl'],
+                details=data['details'],
+            )
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+        # Limpieza del carrito después de crear el voucher
+        cart_usuario.items.clear()
+
         return JsonResponse({'voucher_id': voucher.id})
-    
+
     if voucher_id:
-        voucher = get_object_or_404(Voucher, id=voucher_id)
+        voucher = get_object_or_404(VoucherCompra, id=voucher_id)
         if voucher.usuario != request.user:
             return JsonResponse({'error': 'No tienes permiso para ver este voucher.'}, status=403)
         return render(request, 'core/payment/voucher.html', {'voucher': voucher})
@@ -441,7 +445,8 @@ def ArteAPI(request):
 
 def configuracion(request, id):
     usuario = get_object_or_404(User, id=id)
-    return render(request, 'core/user/user-config.html', {'usuario': usuario})
+    vouchers = VoucherCompra.objects.filter(usuario=usuario)
+    return render(request, 'core/user/user-config.html', {'usuario': usuario, 'vouchers': vouchers})
 
 def userupd(request, id):
     usuario = get_object_or_404(User, id=id)
@@ -461,7 +466,6 @@ def userupd(request, id):
             
     return render(request, 'core/user/user-upd.html', {'form': formulario})
 
-
 ##########################################################
 ##############      PDF       ####################
 ##########################################################
@@ -477,7 +481,7 @@ def render_to_pdf(template_src, context_dict={}):
 
 @login_required
 def generate_voucher_pdf(request, voucher_id):
-    voucher = get_object_or_404(Voucher, id=voucher_id)
+    voucher = get_object_or_404(VoucherCompra, id=voucher_id)
     
     if voucher.usuario != request.user:
         return HttpResponse("Acceso denegado para este voucher.", status=403)

@@ -59,11 +59,9 @@ class ItemCarrito(models.Model):
 
     def subtotal(self):
         return self.obra.valor * self.cantidad
-    
-# NO HE PROBADO ESTO, PERO DEJE EL MODELO CREADO!
 
-class Voucher(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+class VoucherCompra(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=255)
     payer_id = models.CharField(max_length=255)
     order_id = models.CharField(max_length=255)
