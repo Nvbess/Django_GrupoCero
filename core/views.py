@@ -85,7 +85,7 @@ def colecciones(request):
     page_obj = paginator.get_page(page_number)
 
     aux = {
-        'page_obj' : page_obj
+        'page_obj': page_obj
     }
 
     return render(request, 'core/colecciones.html', aux)
@@ -124,15 +124,14 @@ def account_locked(request):
 def cart(request):
     cart_usuario, creado = Carrito.objects.get_or_create(usuario=request.user)
 
-    cart = cart_usuario.items.all()
-
     total_cantidad = sum(item.cantidad for item in cart)
     subtotal = sum(item.subtotal() for item in cart)
-    envio = 0
+    envio = 10
     total = subtotal + envio
 
     usd_rate = IndicadorAPI()
 
+    # Calcular los valores en USD
     if usd_rate:
         cart_with_usd = [(item, item.subtotal() * usd_rate) for item in cart]
         subtotal_usd = subtotal * usd_rate
@@ -209,9 +208,10 @@ def payment_confirmation(request, voucher_id=None):
                 return_url=data['returnUrl'],
                 details=data['details'],
             )
-            return redirect('voucher_page', voucher_id=voucher.id)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
+        return JsonResponse({'voucher_id': voucher.id})
 
     if voucher_id:
         voucher = get_object_or_404(VoucherCompra, id=voucher_id)

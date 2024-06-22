@@ -39,6 +39,12 @@
     background-position: center;
 }
 
+.artista-izq {
+    background-image: url("../img/Gracia-Barrios2.jpg");
+    width: 400px;
+    height: 1000px;
+    margin-top: 40px;
+}
 
 .artista-der {
     flex: 1;
