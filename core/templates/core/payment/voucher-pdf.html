@@ -10,7 +10,8 @@
             margin: 40px;
         }
 
-        h1 {
+        h1,
+        h2 {
             text-align: center;
         }
 
@@ -21,13 +22,19 @@
 </head>
 
 <body>
+    <h2>Detalle de compra</h2>
+    <hr>
     <p><strong>ID del Pago:</strong> {{ voucher.payment_id }}</p>
     <p><strong>ID del Pagador:</strong> {{ voucher.payer_id }}</p>
     <p><strong>ID del Pedido:</strong> {{ voucher.order_id }}</p>
     <p><strong>Nombre:</strong> {{ voucher.details.payer.payer_info.first_name }}</p>
     <p><strong>Apellido:</strong> {{ voucher.details.payer.payer_info.last_name }}</p>
-    <p><strong>Cantidad:</strong> ${{ voucher.details.transactions.0.amount.total }}</p>
-    <p>--------------------------------------------------------------------------------</p>
+    <p><strong>Email:</strong> {{ voucher.details.payer.payer_info.email }}</p>
+    <p><strong>Cantidad:</strong> ${{ voucher.details.transactions.0.amount.total }} USD</p>
+    <p><strong>Metodo de Pago:</strong> {{ voucher.details.payer.payment_method }} </p>
+    <p><strong>Fecha:</strong> {{ voucher.details.create_time }}</p>
+    <hr>
+    <h2>All Details:</h2>
     <p><strong>Detalles:</strong> {{ voucher.details }}</p>
 </body>
 
