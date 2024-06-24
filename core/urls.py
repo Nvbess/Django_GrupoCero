@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import *
 from django.conf import settings
 from rest_framework import routers
-from django.contrib.auth import views
+from django.contrib.auth import views as auth_views
 from . import views
 
 
@@ -43,6 +43,9 @@ urlpatterns = [
         path('cart/', cart, name="cart"),
         path('add_cart/<int:id>/', add_cart, name="add_cart"),
         path('del_cart/<int:id>/', del_cart, name="del_cart"),
+        # Login/Logout
+        path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+        path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
         # Reset Password
         path('password-reset/', views.CustomPasswordResetView.as_view(), name='password_reset'),
         path('password-reset/done/', views.CustomPasswordResetDoneView.as_view(), name='password_reset_done'),

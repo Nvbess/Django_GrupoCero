@@ -10,16 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+load_dotenv()
+
 # CONFIGURACION SENDGRID
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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' 
+EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

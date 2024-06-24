@@ -20,13 +20,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template,render_to_string 
 from xhtml2pdf import pisa
-
-from django.contrib.auth.views import (
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView,
-)
+from django.contrib.auth.views import (PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView,)
 from django.urls import reverse_lazy
 from .forms import ResetPasswordForm, NewPasswordForm
 
@@ -34,7 +28,7 @@ class CustomPasswordResetView(PasswordResetView):
     template_name = 'registration/reset_password.html'
     email_template_name = 'registration/password_reset_email.html'
     form_class = ResetPasswordForm
-    success_url = reverse_lazy('registration/password_reset_done')
+    success_url = reverse_lazy('password_reset_done')
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'registration/reset_password_done.html'
@@ -42,7 +36,7 @@ class CustomPasswordResetDoneView(PasswordResetDoneView):
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'registration/reset_password_confirm.html'
     form_class = NewPasswordForm
-    success_url = reverse_lazy('registration/password_reset_complete')
+    success_url = reverse_lazy('password_reset_complete')
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'registration/reset_password_complete.html'
