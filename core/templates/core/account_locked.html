@@ -7,7 +7,7 @@
 <div class="container">
     <h1>Tu cuenta ha sido bloqueada</h1>
     <p>El intento de inicio de sesión con el correo {{ user.email }} ha sido bloqueado por razones de seguridad.</p>
-    <p>Para restablecer tu acceso, puedes <a href="#">Cambiar contraseña</a></p>
+    <p>Para restablecer tu acceso, puedes <a href="{% url 'password_reset' %}">Cambiar contraseña</a></p>
 </div>
 
 {% endblock %}
