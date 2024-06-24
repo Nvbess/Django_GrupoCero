@@ -58,5 +58,6 @@ urlpatterns = [
         # API
         path('api/', include(router.urls)),
         path('arte', ArteAPI, name='arte'),
+        path('artworks/', RandomMET, name='artworks'),
 	]
 

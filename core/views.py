@@ -11,6 +11,7 @@ from .serializers import *
 from rest_framework.renderers import JSONRenderer
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+import random
 import json
 import requests
 import cloudinary
@@ -60,6 +61,56 @@ def IndicadorAPI():
     except Exception as e:
         print("Error al obtener la tasa de cambio:", e)
         return None
+
+def ObtenerDetalleMET(object_id):
+    base_url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/"
+    url = f"{base_url}{object_id}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        artwork_details = {
+            'title': data.get('title'),
+            'artist': data.get('artistDisplayName'),
+            'image': ObtenerImagenMET(data),
+            'bio': data.get('artistDisplayBio'),
+            'pais': data.get('artistNationality')
+        }
+        if artwork_details['image'] and artwork_details['artist'] and artwork_details['bio']:
+            return artwork_details
+    return None
+
+def ObtenerImagenMET(data):
+    if 'primaryImage' in data:
+        return data['primaryImage']
+    elif 'images' in data and len(data['images']) > 0:
+        return data['images'][0]['baseimageurl']
+    else:
+        return 'No se encontro la imagen'
+
+def RandomMET(request):
+    base_url = "https://collectionapi.metmuseum.org/public/collection/v1/search"
+    params = {
+        'q': 'paintings',  # Filtrar por pinturas
+        'medium': 'Paintings'
+    }
+    response = requests.get(base_url, params=params)
+
+    artworks = []
+    if response.status_code == 200:
+        data = response.json()
+        object_ids = data.get('objectIDs', [])
+        if object_ids:
+            valid_artworks = []
+            while len(valid_artworks) < 3 and object_ids:
+                random_id = random.choice(object_ids)
+                object_ids.remove(random_id)
+                artwork = ObtenerDetalleMET(random_id)
+                if artwork:
+                    valid_artworks.append(artwork)
+            artworks = valid_artworks
+
+    return render(request, 'core/crudapi/artworks.html', {'artworks': artworks})
 
 ##########################################################
 ##############      VIEWS PRINCIPAL   ####################

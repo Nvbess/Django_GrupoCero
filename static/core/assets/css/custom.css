@@ -7,3 +7,39 @@ label{
     font-weight: 400 !important;
 }
 
+
+.gradient-form {
+    background-color: #eee;
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+
+.gradient-form-register {
+    background-color: #eee;
+    min-height: 130vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+
+@media (max-width: 1200px) {
+    .gradient-form {
+        background-color: #eee;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+      }
+
+    .gradient-form-register {
+        background-color: #eee;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+}
+

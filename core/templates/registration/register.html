@@ -1,8 +1,8 @@
-{% extends 'core/base-login.html' %}
+{% extends 'core/base-register.html' %}
 
 {% load crispy_forms_tags %}
 
-{% block contenido_registration %}
+{% block contenido_register %}
                   <form method="POST">
                     <h2 class="mb-5 mt-5">Registro</h2>
                     {% csrf_token %} <!-- Token de Seguridad -->

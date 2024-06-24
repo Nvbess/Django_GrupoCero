@@ -58,6 +58,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'artworks' %}">MET</a>
+                        </li>
                         {% for group in user.groups.all %}
                         {% if group.name == 'Administrador' %}
                         <li class="nav-item">

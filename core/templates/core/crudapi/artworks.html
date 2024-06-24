@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+
+<!-- Start Content -->
+<div class="container py-5" style="margin-top: 5%;">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <ul class="list-inline shop-top-menu pb-3 pt-1">
+                <h1>Conociendo el MET</h1>
+                <li class="list-inline-item">
+                    <span class="h1 text-dark"></span>
+                </li>
+                <p>Explora diariamente obras del Metropolitan Museum of Art (MET) y descubre piezas de arte de todo el mundo.</p>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        {% for artwork in artworks %}
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+            <div class="card product-wap rounded-0">
+                <div class="card rounded-0">
+                    <img class="card-img img-fluid object-fit-cover border rounded mx-auto" style="object-fit: cover;" src="{{ artwork.image }}" alt="Imagen de {{ artwork.title }}">
+                    <div
+                        class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if artwork.title|length < 24 %} <h5 class="card-title">{{ artwork.title }}</h5>
+                        {% else %}
+                        <h5 class="card-title">{{ artwork.title|truncatechars:24 }}</h5>
+                        {% endif %}
+                        <p class="card-text mb-2">{{ artwork.artist }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- End Content -->
+
+{% endblock %}

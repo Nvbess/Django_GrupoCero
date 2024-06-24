@@ -37,9 +37,50 @@
 }
 
 /* Media query */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+    .obra-card {
+        width: 300px; 
+        height: 440px; 
+        overflow: hidden;
+    }
+
+    .artista-card, .obra-card {
+        margin-left: 5%;
+        width: 300px; 
+        height: 400px; 
+        overflow: hidden;
+    }
     .col-3 {
-        flex: 0 0 100%;
+        flex-basis: 50%;
+        max-width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .col-md-6 img {
+        margin-top: 15%;
+    }
+
+    .card-obra {
+        margin-top: 40px;
+    }
+
+    .cart-gc {
+        margin-top: 60px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .artista-card, .obra-card {
+        margin-left: 5%;
+        width: 300px; 
+        height: 400px; 
+        overflow: hidden;
+    }
+    .col-3 {
+        flex-basis: 50%;
+        flex: 10 0 100%;
         max-width: 100%;
         justify-content: center;
         align-items: center;
