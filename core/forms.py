@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
 from django_recaptcha.fields import ReCaptchaField
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+
 
 class CustomUserCreationForm(UserCreationForm):
     captcha = ReCaptchaField()
@@ -50,6 +52,36 @@ class ArtistaCreationForm(forms.ModelForm):
         model =  Autor
         fields = ['nombre','descripcion','imagen']
 
-        
+class ResetPasswordForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        "class": "input",
+        "type": "email",
+        "placeholder": "enter email-id"
+    }))
+
+
+class NewPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(NewPasswordForm, self).__init__(*args, **kwargs)
+
+    
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': "input",
+            "type": "password",
+            'autocomplete': 'new-password'
+    }))
+
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'class': "input",
+            "type": "password",
+            'autocomplete': 'new-password'
+    }))
+
 
 

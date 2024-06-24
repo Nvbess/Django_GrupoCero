@@ -16,7 +16,14 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-CLOUDINARY_URL = 'cloudinary://346192587839451:l6A_FW9Xm4zY8yJrpPVU7B7IgoA@dyh1syxfx'
+# CONFIGURACION SENDGRID
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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' 
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'juli.orellana@duocuc.cl'
 
 #CONFIG CLOUDINARY
 CLOUDINARY_STORAGE = {
