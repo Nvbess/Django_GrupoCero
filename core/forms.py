@@ -56,10 +56,10 @@ class ResetPasswordForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super(ResetPasswordForm, self).__init__(*args, **kwargs)
 
-    email = forms.CharField(widget=forms.TextInput(attrs={
+    email = forms.CharField(label='',widget=forms.TextInput(attrs={
         "class": "input",
         "type": "email",
-        "placeholder": "enter email-id"
+        "placeholder": ""
     }))
 
 
