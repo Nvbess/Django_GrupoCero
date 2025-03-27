@@ -24,6 +24,7 @@ from xhtml2pdf import pisa
 from django.contrib.auth.views import (PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView,)
 from django.urls import reverse_lazy
 from .forms import ResetPasswordForm, NewPasswordForm
+import os
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'registration/reset_password.html'
@@ -44,9 +45,9 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 
 # Configurar Cloudinary con tus credenciales
 cloudinary.config(
-    cloud_name="dyh1syxfx",
-    api_key="346192587839451",
-    api_secret="l6A_FW9Xm4zY8yJrpPVU7B7IgoA"
+    cloud_name= os.getenv('CLOUDINARY_NAME'),
+    api_key= os.getenv('CLOUDINARY_API_KEY'),
+    api_secret= os.getenv('CLOUDINARY_API_SECRET')
 )
 
 def in_group(user, group_name):

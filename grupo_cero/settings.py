@@ -17,6 +17,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+
 load_dotenv()
 
 # CONFIGURACION SENDGRID
@@ -30,9 +31,9 @@ DEFAULT_FROM_EMAIL = 'juli.orellana@duocuc.cl'
 
 #CONFIG CLOUDINARY
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME' : 'dyh1syxfx',
-    'API_KEY': '346192587839451',
-    'API_SECRET':'l6A_FW9Xm4zY8yJrpPVU7B7IgoA'
+    'CLOUD_NAME' : os.getenv('CLOUDINARY_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,7 +44,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%8fzd%$jl2rk7919qwtfv!zevr^$*0xh-%p38w-0)o7$!g0(%v'
+SECRET_KEY = os.getenv('SECRET_KEY_DJANGO')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,8 +76,8 @@ INSTALLED_APPS = [
 ]
 
 # KEYS DEL RECAPTCHA
-RECAPTCHA_PUBLIC_KEY = '6LezsvUpAAAAAE65YuqsMpbqa3CY1SpLZCaLUko3'
-RECAPTCHA_PRIVATE_KEY = '6LezsvUpAAAAANtRZBx5pB2wCefVhIRtmg5HCJpG'
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
 
 #CONFIG MULTI CAPTCHA
 MULTI_CAPTCHA_ADMIN = {
@@ -104,7 +105,7 @@ AXES_LOCKOUT_URL = '/account_locked/'       #Ruta URL a la que se redirigue cuan
 AXES_RESET_ON_SUCCESS = True                #Reestablecemos el contador de intentos fallidos, cuando se logea correctamente.
 
 # CONFIGURACION PAYPAL
-PAYPAL_RECEIVER_EMAIL = 'sb-bpbsx31159923@business.example.com'
+PAYPAL_RECEIVER_EMAIL = os.getenv('PAYPAL_RECEIVER_EMAIL')
 PAYPAL_TEST = True  # Cambia a False en producción
 
 ROOT_URLCONF = 'grupo_cero.urls'
@@ -149,9 +150,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'aws-0-sa-east-1.pooler.supabase.com',
         'NAME': 'postgres',
-        'USER': 'postgres.odrompjyljvaatrdubwj',
-        'PASSWORD': 'Grupocero@cero',
-        'PORT': '5432',
+        'USER': os.getenv('SUPABASE_USER_NAME'),
+        'PASSWORD': os.getenv('SUPABASE_USER_PASSWORD'),
+        'PORT': '6543',
     }
 }
 
